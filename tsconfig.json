@@ -1,0 +1,17 @@
+{
+  "extends": "expo/tsconfig.base",
+  "compilerOptions": {
+    "strict": true,
+    "paths": {
+      "@/*": [
+        "./*"
+      ]
+    }
+  },
+  "include": [
+    "**/*.ts",
+    "**/*.tsx",
+    ".expo/types/**/*.ts",
+    "expo-env.d.ts"
+, "src/app/(tabs)/AdminDashboard.tsx", "src/app/(tabs)/Assigned.tsx", "src/app/(tabs)/Attendance.tsx", "src/app/(tabs)/Events.tsx", "src/app/(tabs)/LecturerDashboard", "src/app/(tabs)/LoginPage.tsx", "src/app/(tabs)/Missed.tsx", "src/app/(tabs)/Notification.tsx", "src/app/(tabs)/Report.tsx", "src/app/(tabs)/studentDashboard.tsx"  ]
+}
