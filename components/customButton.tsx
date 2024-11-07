@@ -32,17 +32,17 @@ export default customButton;
 
 const styles = StyleSheet.create({
     container: {
-      flex:1,
-      justifyContent:"center",
-      alignItems: "center",
-      paddingVertical: 12,
-      paddingHorizontal: 22,
-      lineHeight: 21,
-      borderRadius: 4, 
+     flexDirection:'row',
+      marginBottom:2,
       borderWidth:1,
+      borderRadius:4,
+      paddingVertical:12,
+      marginRight:100,
+      marginLeft:105,
       backgroundColor: "#1A43BF",
       fontWeight: "bold",
-      margin: 25
+      justifyContent:'center'
+      
       
     },
 })

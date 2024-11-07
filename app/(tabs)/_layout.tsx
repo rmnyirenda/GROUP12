@@ -24,15 +24,7 @@ export default function TabLayout() {
         ),
      }}
      />
-      <Tabs.Screen
-     name="LecturerDashboard"
-     options={{
-        tabBarLabel: "Dashboard",
-        tabBarIcon: ({color})=>(
-            <MaterialIcons name="dashboard" size={24} color={color} />
-        ),
-     }}
-     />
+    
     </Tabs>
   );
 }

@@ -1,5 +1,5 @@
 import React from "react";
-import { View,Text } from "react-native";
+import { View,Text, TouchableOpacity, Button } from "react-native";
 import AppGradient from "@/components/AppGradient";
 
 const LectureDashboard= ()=>{
@@ -8,7 +8,9 @@ const LectureDashboard= ()=>{
       <View>
         <AppGradient colors={["rgba(0,0,0,0.5)"]}>
             <View>
-            <Text>Hello</Text>
+            <TouchableOpacity>
+              
+            </TouchableOpacity>
             </View>
         </AppGradient>
       </View> 
