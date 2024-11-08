@@ -4,6 +4,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 import Feather from '@expo/vector-icons/Feather';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
+import Ionicons from '@expo/vector-icons/Ionicons';
 
 const StudentDashboard= ()=>{
     
@@ -19,6 +20,9 @@ const StudentDashboard= ()=>{
     <View style={style.menu}>
     <Feather name="menu" size={24} color="black" />
     </View>
+    <View style={style.notification}>
+    <Ionicons name="notifications" size={24} color="black" />
+    </View>
     <View style={style.user}>
     <FontAwesome name="user-circle-o" size={24} color="black" />
     </View>
@@ -26,15 +30,15 @@ const StudentDashboard= ()=>{
     <View >
     <View style={style.box}>
             <TouchableOpacity style={style.container1}>
-              <Text>EVENTS</Text>
+              <Text>ASSIGNED</Text>
             </TouchableOpacity>
             <TouchableOpacity style={style.container2}>
-              <Text>ATTENDANCE</Text>
+              <Text>MISSED</Text>
             </TouchableOpacity>
             </View>
             <View style={style.box2}>
             <TouchableOpacity style={style.container3}>
-            <Text style={style.text}>Report</Text>
+            <Text style={style.text}>EVENTS</Text>
             </TouchableOpacity>
             </View>
             
@@ -118,5 +122,8 @@ const style = StyleSheet.create({
     flexDirection:'row',
     marginTop:15
     
+  },
+  notification:{
+    left:250
   }
 })
