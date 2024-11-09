@@ -1,40 +1,86 @@
-import { Tabs } from 'expo-router';
 import React from 'react';
-import Ionicons from '@expo/vector-icons/Ionicons';
-import { Colors } from '@/constants/Colors';
-import { useColorScheme } from '@/hooks/useColorScheme';
-import MaterialIcons from '@expo/vector-icons/MaterialIcons';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
 
-export default function TabLayout() {
-  const colorScheme = useColorScheme();
+// Ensure that the imports are correct based on your actual file structure
+import Login from '@/app/Auth/Login'; // Import Login screen
+import LecturerDashboard from '@/app/LecturerDashboard/LectureDashboard'; // Lecturer Dashboard
+import StudentDashboard from '@/app/StudentDashboard/StudentDashboard'; // Student Dashboard
+import Events from '@/app/LecturerDashboard/Events'; // Events
+import Attendance from '@/app/LecturerDashboard/Attendance'; // Attendance
+import Report from '@/app/LecturerDashboard/Report'; // Report
+import AdminDashboard from '@/app/AdminDashboard/AdminDashboard'
+import CreateUser from '@/app/AdminDashboard/CreateUser';
+import deleteUser from '@/app/AdminDashboard/deleteUser';
+import updateUser from '@/app/AdminDashboard/updateUser';
+import UpdateAttendance from '@/app/AdminDashboard/UpdateAttendance';
 
+// Create a stack navigator instance
+const Stack = createStackNavigator();
+
+const Layout = () => {
   return (
-    <Tabs
-      screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
-        headerShown: false,
-      }}>
-     <Tabs.Screen
-     name="index"
-     options={{
-        tabBarLabel: "Attendance",
-        tabBarIcon: ({color})=>(
-            <Ionicons name="school" 
-            size={24} color={color} />
-        ),
-     }}
-     />
-     <Tabs.Screen
-     name="LecturerDashboard"
-     options={{
-        tabBarLabel: "dashboard",
-        tabBarIcon:({color})=>(
-        <MaterialIcons name="dashboard"
-         size={24} color={color} />
-        ),
-     }}
-     />
-    
-    </Tabs>
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName="Login">
+        <Stack.Screen 
+          name="Login" 
+          component={Login} 
+          options={{ headerShown: false }} // Hide header for the login screen if needed
+        />
+        <Stack.Screen 
+          name="LecturerDashboard" 
+          component={LecturerDashboard} 
+          options={{ headerTitle: 'Lecturer Dashboard' }} // Optional: Customize header
+        />
+        <Stack.Screen 
+          name="AdminDashboard" 
+          component={AdminDashboard} 
+          options={{ headerTitle: 'Admin Dashboard' }} // Optional: Customize header
+        />
+        <Stack.Screen 
+          name="StudentDashboard" 
+          component={StudentDashboard} 
+          options={{ headerTitle: 'Student Dashboard' }} // Optional: Customize header
+        />
+        <Stack.Screen 
+          name="Events" 
+          component={Events} 
+          options={{ headerTitle: 'Events' }} // Optional: Customize header
+        />
+         <Stack.Screen 
+          name="deleteUser" 
+          component={deleteUser} 
+          options={{ headerTitle: 'deleteuser' }} // Optional: Customize header
+        />
+         <Stack.Screen 
+          name="updateUser" 
+          component={updateUser} 
+          options={{ headerTitle: 'UpdateUser' }} // Optional: Customize header
+        />
+         <Stack.Screen 
+          name="UpdateAttendance" 
+          component={UpdateAttendance} 
+          options={{ headerTitle: 'UpdateAttendance' }} // Optional: Customize header
+        />
+        <Stack.Screen 
+          name="Attendance" 
+          component={Attendance} 
+          options={{ headerTitle: 'Attendance' }} // Optional: Customize header
+        />
+        <Stack.Screen 
+          name="Report" 
+          component={Report} 
+          options={{ headerTitle: 'Report' }} // Optional: Customize header
+        />
+        <Stack.Screen 
+          name="CreateUser" 
+          component={CreateUser} 
+          options={{ headerTitle: 'CreateUser' }} // Optional: Customize header
+        />
+
+      </Stack.Navigator>
+    </NavigationContainer>
   );
-}
+};
+
+export default Layout;

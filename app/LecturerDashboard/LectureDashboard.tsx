@@ -1,6 +1,5 @@
-// LecturerDashboard.tsx
-import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, TouchableOpacity, StyleSheet, Image, Alert, Modal } from 'react-native';
 import { Ionicons, FontAwesome5 } from '@expo/vector-icons';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { useNavigation } from '@react-navigation/native';
@@ -17,8 +16,39 @@ type RootStackParamList = {
 type LecturerDashboardScreenProp = StackNavigationProp<RootStackParamList, 'LecturerDashboard'>;
 
 export default function LecturerDashboard() {
-  // Use the typed navigation hook
+  // State for menu modal
+  const [isMenuVisible, setMenuVisible] = useState(false);
   const navigation = useNavigation<LecturerDashboardScreenProp>();
+
+  // Function to handle logout prompt
+  const handleLogoutPrompt = () => {
+    Alert.alert(
+      "Logout",
+      "Do you want to log out?",
+      [
+        { text: "Cancel", style: "cancel" },
+        { text: "Logout", onPress: () => console.log("Logged out") }
+      ]
+    );
+  };
+
+  // Function to handle menu option selection
+  const handleMenuOption = (option: string) => {
+    setMenuVisible(false);
+    switch (option) {
+      case 'Change Password':
+        console.log("Navigate to Change Password");
+        break;
+      case 'Personal Details':
+        console.log("Navigate to Personal Details");
+        break;
+      case 'Logout':
+        handleLogoutPrompt();
+        break;
+      default:
+        break;
+    }
+  };
 
   return (
     <View style={styles.container}>
@@ -30,9 +60,13 @@ export default function LecturerDashboard() {
 
       {/* Navbar */}
       <View style={styles.navbar}>
-        <Ionicons name="menu" size={24} color="black" style={styles.menuIcon} />
+        <TouchableOpacity onPress={() => setMenuVisible(true)}>
+          <Ionicons name="menu" size={24} color="black" style={styles.menuIcon} />
+        </TouchableOpacity>
         <Text style={styles.welcomeText}>WELCOME</Text>
-        <Ionicons name="person-circle" size={24} color="black" style={styles.profileIcon} />
+        <TouchableOpacity onPress={handleLogoutPrompt}>
+          <Ionicons name="person-circle" size={24} color="black" style={styles.profileIcon} />
+        </TouchableOpacity>
       </View>
 
       {/* Banner Image */}
@@ -61,6 +95,26 @@ export default function LecturerDashboard() {
 
       {/* Footer */}
       <Text style={styles.footerText}>© 2024 Student Attendance. All rights reserved</Text>
+
+      {/* Menu Modal */}
+      <Modal visible={isMenuVisible} transparent={true} animationType="slide">
+        <View style={styles.modalContainer}>
+          <View style={styles.modalContent}>
+            <TouchableOpacity onPress={() => handleMenuOption('Change Password')}>
+              <Text style={styles.menuText}>Change Password</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => handleMenuOption('Personal Details')}>
+              <Text style={styles.menuText}>Personal Details</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => handleMenuOption('Logout')}>
+              <Text style={styles.menuText}>Logout</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => setMenuVisible(false)}>
+              <Text style={styles.closeText}>Close</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
     </View>
   );
 }
@@ -71,7 +125,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#F0F0F0',
   },
   header: {
-    backgroundColor: '#1c1cf0', // Dark blue color
+    backgroundColor: '#1c1cf0',
     alignItems: 'center',
     padding: 10,
   },
@@ -100,7 +154,7 @@ const styles = StyleSheet.create({
     flex: 3,
     textAlign: 'center',
     fontWeight: 'bold',
-    color: '#0000FF', // Blue color
+    color: '#0000FF',
   },
   profileIcon: {
     flex: 1,
@@ -119,7 +173,7 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   button: {
-    backgroundColor: '#B0E0E6', // Light blue color for Events button
+    backgroundColor: '#B0E0E6',
     width: '40%',
     margin: 10,
     padding: 20,
@@ -127,10 +181,10 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   attendanceButton: {
-    backgroundColor: '#98FB98', // Light green color for Attendance button
+    backgroundColor: '#98FB98',
   },
   reportButton: {
-    backgroundColor: '#ADD8E6', // Light blue color for Report button
+    backgroundColor: '#ADD8E6',
     width: '80%',
     margin: 10,
     padding: 20,
@@ -147,5 +201,27 @@ const styles = StyleSheet.create({
     color: '#000000',
     fontSize: 12,
     marginVertical: 10,
+  },
+  modalContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  },
+  modalContent: {
+    width: '80%',
+    backgroundColor: '#fff',
+    padding: 20,
+    borderRadius: 10,
+    alignItems: 'center',
+  },
+  menuText: {
+    fontSize: 18,
+    marginVertical: 10,
+  },
+  closeText: {
+    color: 'blue',
+    marginTop: 20,
+    fontSize: 16,
   },
 });
