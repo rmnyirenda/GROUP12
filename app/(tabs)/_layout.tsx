@@ -17,6 +17,7 @@ import UpdateAttendance from '@/app/AdminDashboard/UpdateAttendance';
 import Notification from '../StudentDashboard/Notification';
 import Assigned from '../StudentDashboard/Assigned';
 import Missed from '../StudentDashboard/Missed';
+import Scan from '../LecturerDashboard/Scan';
 
 
 // Create a stack navigator instance
@@ -35,6 +36,11 @@ const Layout = () => {
           name="LecturerDashboard" 
           component={LecturerDashboard} 
           options={{ headerTitle: 'Lecturer Dashboard' }} // Optional: Customize header
+        />
+         <Stack.Screen 
+          name="Scan" 
+          component={Scan} 
+          options={{ headerTitle: 'Scan ID' }} // Optional: Customize header
         />
         <Stack.Screen 
           name="AdminDashboard" 
