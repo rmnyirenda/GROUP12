@@ -63,8 +63,11 @@ export default function StudentDashboard() {
         <TouchableOpacity onPress={() => setMenuVisible(true)}>
           <Ionicons name="menu" size={24} color="black" style={styles.menuIcon} />
         </TouchableOpacity>
+        <TouchableOpacity>
+       <Ionicons name="notifications" size={24} color="black" style={styles.notification}/>
+      </TouchableOpacity>
         <TouchableOpacity onPress={handleLogoutPrompt}>
-          <Ionicons name="person-circle" size={24} color="black" style={styles.profileIcon} />
+          <Ionicons name="person-circle" size={24} color="black" style={styles.user} />
         </TouchableOpacity>
       </View>
 
@@ -77,7 +80,7 @@ export default function StudentDashboard() {
       {/* Buttons */}
       <View style={styles.buttonsContainer}>
         <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Events')}>
-          <FontAwesome5 name="calendar-alt" size={24} color="black" />
+          <FontAwesome5 name="user-check" size={24} color="black" />
           <Text style={styles.buttonText}>ASSIGNED</Text>
         </TouchableOpacity>
 
@@ -87,7 +90,7 @@ export default function StudentDashboard() {
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.reportButton} onPress={() => navigation.navigate('Report')}>
-          <FontAwesome5 name="file-alt" size={24} color="black" />
+          <FontAwesome5 name="calendar-alt" size={24} color="black" />
           <Text style={styles.buttonText}>EVENTS</Text>
         </TouchableOpacity>
       </View>
@@ -165,6 +168,9 @@ const styles = StyleSheet.create({
     resizeMode: 'cover',
     marginVertical: 10,
   },
+  notification:{
+    left:275
+  },
   buttonsContainer: {
     flexDirection: 'row',
     flexWrap: 'wrap',
@@ -222,5 +228,9 @@ const styles = StyleSheet.create({
     color: 'blue',
     marginTop: 20,
     fontSize: 16,
+  },
+  user:{
+    left:200,
+    
   },
 });

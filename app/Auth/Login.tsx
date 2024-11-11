@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, Image, KeyboardAvoidingView } from 'react-native';
-//import { Picker } from '@react-native-picker/picker';
 import {  FontAwesome } from '@expo/vector-icons';
 import {Firebase_Auth} from '../../firebaseConfig'
 import { signInWithEmailAndPassword } from 'firebase/auth';
@@ -41,7 +40,7 @@ const Login = ({ navigation }: any) => {
  
   return (
     <View style={styles.container}>
-      <KeyboardAvoidingView behavior='padding'>
+      <KeyboardAvoidingView >
       {/* Logo */}
       <Image 
         source={{ uri: 'https://png.pngtree.com/png-clipart/20211017/original/pngtree-school-logo-png-image_6851480.png' }}
@@ -73,20 +72,6 @@ const Login = ({ navigation }: any) => {
           onChangeText={setPassword}
         />
       </View>
-
-      {/* User Type Picker */}
-      {/*<View style={styles.pickerContainer}>
-        <Text style={styles.pickerLabel}>Signin as</Text>
-        <Picker
-          selectedValue={userType}
-          style={styles.picker}
-          onValueChange={(itemValue: string) => setUserType(itemValue)}
-        >
-          <Picker.Item label="Student" value="student" />
-          <Picker.Item label="Lecturer" value="lecturer" />
-          <Picker.Item label="Admin" value="admin" />
-        </Picker>
-      </View>*/}
 
         {loading }
       {/* Login Button */}
