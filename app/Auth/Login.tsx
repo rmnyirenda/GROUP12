@@ -45,9 +45,10 @@ const Login = ({ navigation }: any) => {
         source={{ uri: 'https://png.pngtree.com/png-clipart/20211017/original/pngtree-school-logo-png-image_6851480.png' }}
         style={styles.logo}
       />
+      <View> <Text style={styles.header}>SIGN IN</Text></View>
 
       {/* Header */}
-      <Text style={styles.header}>SIGN IN</Text>
+     
 
       {/* Username Input */}
       <View style={styles.inputContainer}>

@@ -19,6 +19,7 @@ import Assigned from '../StudentDashboard/Assigned';
 import Missed from '../StudentDashboard/Missed';
 import Scan from '../LecturerDashboard/Scan';
 
+
 // Create a stack navigator instance
 const Stack = createStackNavigator();
 
@@ -32,16 +33,11 @@ const Layout = () => {
           options={{ headerShown: false }} // Hide header for the login screen if needed
         />
         <Stack.Screen 
-          name="Scan" 
-          component={Scan} 
-          options={{ headerTitle: 'Scan ID' }} // Optional: Customize header
-        />
-        <Stack.Screen 
           name="LecturerDashboard" 
           component={LecturerDashboard} 
           options={{ headerTitle: 'Lecturer Dashboard' }} // Optional: Customize header
         />
-         <Stack.Screen 
+        <Stack.Screen 
           name="Scan" 
           component={Scan} 
           options={{ headerTitle: 'Scan ID' }} // Optional: Customize header
