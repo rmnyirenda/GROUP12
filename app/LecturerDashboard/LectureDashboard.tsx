@@ -3,8 +3,6 @@ import { View, Text, TouchableOpacity, StyleSheet, Image, Alert, Modal } from 'r
 import { Ionicons, FontAwesome5 } from '@expo/vector-icons';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { useNavigation } from '@react-navigation/native';
-import { signOut,getAuth } from 'firebase/auth';
-import Login from '../Auth/Login';
 
 // Define types for your stack navigator
 type RootStackParamList = {
@@ -12,7 +10,6 @@ type RootStackParamList = {
   Events: undefined;
   Attendance: undefined;
   Report: undefined;
-  Login:undefined
 };
 
 // Define the prop type for navigation
@@ -24,16 +21,7 @@ export default function LecturerDashboard() {
   const navigation = useNavigation<LecturerDashboardScreenProp>();
 
   // Function to handle logout prompt
-  const handleLogoutPrompt = async() => {
-    try{
-      const auth =getAuth();
-      await signOut(auth);
-      navigation.reset({
-        index:0,
-        routes:[{name:'Login'}]
-      })
-    }
-    catch(error){
+  const handleLogoutPrompt = () => {
     Alert.alert(
       "Logout",
       "Do you want to log out?",
@@ -42,7 +30,6 @@ export default function LecturerDashboard() {
         { text: "Logout", onPress: () => console.log("Logged out") }
       ]
     );
-  }
   };
 
   // Function to handle menu option selection

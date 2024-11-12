@@ -74,6 +74,7 @@ const Attendance = () => {
   }
 
   return (
+
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
         <Image source={{ uri: 'https://png.pngtree.com/png-clipart/20211017/original/pngtree-school-logo-png-image_6851480.png' }} style={styles.logo} />
@@ -108,6 +109,9 @@ const Attendance = () => {
         </TouchableOpacity>
       </View>
     </SafeAreaView>
+    <View>
+      <Text>Events Screen</Text>
+    </View>
   );
 };
 
