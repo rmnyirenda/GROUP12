@@ -33,6 +33,11 @@ const Layout = () => {
           options={{ headerShown: false }} // Hide header for the login screen if needed
         />
         <Stack.Screen 
+          name="Scan" 
+          component={Scan} 
+          options={{ headerTitle: 'Scan ID' }} // Optional: Customize header
+        />
+        <Stack.Screen 
           name="LecturerDashboard" 
           component={LecturerDashboard} 
           options={{ headerTitle: 'Lecturer Dashboard' }} // Optional: Customize header
