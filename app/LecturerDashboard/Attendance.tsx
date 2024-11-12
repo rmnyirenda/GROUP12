@@ -1,18 +1,14 @@
-// Attendance.tsx
 import React, { useState, useEffect } from 'react';
 import { View, Alert, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, Image } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
-import Scan from '../LecturerDashboard/Scan';
-import { BarCodeScanner } from 'expo-barcode-scanner';
-
+import { BarCodeScanner } from 'expo-barcode-scanner'; // Use expo-barcode-scanner for scanning
 
 const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz62E1v1KKYh4HLmop3056saTAdR_-3Pp7a3VESgxqMp8raw33eLWyaroUr_ivA4BuO5Q/exec';
 
 const Attendance = () => {
   const [hasPermission, setHasPermission] = useState<boolean | null>(null);
   const [scanned, setScanned] = useState<boolean>(false);
-  const [data, setData] = useState<string>('');
   const [inputRegNumber, setInputRegNumber] = useState<string>('');
   const [studentName, setStudentName] = useState<string | null>(null);
   const [attendanceList, setAttendanceList] = useState<{ regNumber: string, name: string, status: string }[]>([]);
@@ -20,15 +16,14 @@ const Attendance = () => {
 
   useEffect(() => {
     (async () => {
-      const { status } = await BarCodeScanner.requestPermissionsAsync();
+      const { status } = await BarCodeScanner.requestPermissionsAsync(); // Request camera permissions
       setHasPermission(status === 'granted');
     })();
   }, []);
 
-  const handleBarCodeScanned = (data: string) => {
+  const handleBarCodeScanned = ({ type, data }: { type: string; data: string }) => {
     setScanned(true);
-    setData(data);
-    Alert.alert('Scanned!', `Reg. Number: ${data}`);
+    Alert.alert('Scanned!', `Data: ${data}`);
     sendDataToGoogleSheet(data);
   };
 
@@ -74,7 +69,6 @@ const Attendance = () => {
   }
 
   return (
-
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
         <Image source={{ uri: 'https://png.pngtree.com/png-clipart/20211017/original/pngtree-school-logo-png-image_6851480.png' }} style={styles.logo} />
@@ -89,7 +83,16 @@ const Attendance = () => {
         </TouchableOpacity>
       </View>
 
-      <Scan scanned={scanned} setScanned={setScanned} onBarCodeScanned={handleBarCodeScanned} data={data} />
+      <BarCodeScanner
+        onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
+        style={StyleSheet.absoluteFillObject}
+      />
+
+      {scanned && (
+        <TouchableOpacity onPress={() => setScanned(false)} style={styles.button}>
+          <Text style={styles.buttonText}>Tap to Scan Again</Text>
+        </TouchableOpacity>
+      )}
 
       <View style={styles.inputContainer}>
         <TextInput
@@ -109,9 +112,6 @@ const Attendance = () => {
         </TouchableOpacity>
       </View>
     </SafeAreaView>
-    <View>
-      <Text>Events Screen</Text>
-    </View>
   );
 };
 
