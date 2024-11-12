@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, Image, KeyboardAvoidingView, ActivityIndicator } from 'react-native';
-import {  FontAwesome } from '@expo/vector-icons';
-import {Firebase_Auth} from '../../firebaseConfig'
+import { FontAwesome } from '@expo/vector-icons';
+import { Firebase_Auth } from '../../firebaseConfig';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 
 
@@ -36,19 +36,14 @@ const Login = ({ navigation }: any) => {
       Alert.alert('Error', 'Invalid credentials. Please try again.');
     }
   }
- 
   return (
-    <View style={styles.container}>
-      <KeyboardAvoidingView >
+    <KeyboardAvoidingView style={styles.container}>
       {/* Logo */}
       <Image 
         source={{ uri: 'https://png.pngtree.com/png-clipart/20211017/original/pngtree-school-logo-png-image_6851480.png' }}
         style={styles.logo}
       />
-      <View> <Text style={styles.header}>SIGN IN</Text></View>
-
-      {/* Header */}
-     
+      <Text style={styles.header}>SIGN IN</Text>
 
       {/* Username Input */}
       <View style={styles.inputContainer}>
@@ -67,23 +62,21 @@ const Login = ({ navigation }: any) => {
         <TextInput
           style={styles.input}
           placeholder="PASSWORD"
-          secureTextEntry={true}
+          secureTextEntry
           value={password}
           onChangeText={setPassword}
         />
       </View>
 
-      {/* Login Button */}
-        {loading? ( 
-          <ActivityIndicator color='red'/>
-        ):(
-      <TouchableOpacity style={styles.button} onPress={signIn}>
-        <Text style={styles.buttonText}>LOG IN</Text>
-      </TouchableOpacity>
-        )}
-      <TouchableOpacity>Reset password?</TouchableOpacity>
-      </KeyboardAvoidingView>
-    </View>
+      {/* Login Button or Loading Indicator */}
+      {loading ? (
+        <ActivityIndicator color="red" />
+      ) : (
+        <TouchableOpacity style={styles.button} onPress={signIn}>
+          <Text style={styles.buttonText}>LOG IN</Text>
+        </TouchableOpacity>
+      )}
+    </KeyboardAvoidingView>
   );
 };
 
@@ -121,25 +114,6 @@ const styles = StyleSheet.create({
     flex: 1,
     marginLeft: 10,
     paddingVertical: 5,
-  },
-  pickerContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    borderWidth: 1,
-    borderColor: '#1c1cf0',
-    borderRadius: 8,
-    paddingHorizontal: 10,
-    marginBottom: 15,
-    width: '100%',
-  },
-  pickerLabel: {
-    fontSize: 16,
-    color: '#333',
-    marginRight: 10,
-  },
-  picker: {
-    flex: 1,
-    height: 40,
   },
   button: {
     backgroundColor: '#1c1cf0',
