@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, Image, KeyboardAvoidingView } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, Image, KeyboardAvoidingView, ActivityIndicator } from 'react-native';
 import {  FontAwesome } from '@expo/vector-icons';
 import {Firebase_Auth} from '../../firebaseConfig'
 import { signInWithEmailAndPassword } from 'firebase/auth';
@@ -23,15 +23,14 @@ const Login = ({ navigation }: any) => {
     }finally{
       setLoading(false);
     }
-    if (email === 'stud001@gmail.com' && password === 'stu1234567') {
-        navigation.navigate('StudentDashboard');
-      } 
-      else if (email === 'letcom311@gmail.com' && password === 'le7654321') {
+   
+       if (email === 'letcom311@gmail.com' && password === 'le7654321'||
+        email === 'letcom312@gmail.com' && password === 'let12345' ||
+        email === 'letcom313@gmail.com' && password === 'le123456' ||
+        email === 'letcom314@gmail.com' && password === 'le1234567' ||
+        email === 'letcom315@gmail.com' && password === 'le123456789'
+       ) {
         navigation.navigate('LecturerDashboard');
-      }
-       else if (email === 'admin1@gmail.com' && password === 'ad001122') 
-        {
-        navigation.navigate('AdminDashboard');
       }
     else {
       Alert.alert('Error', 'Invalid credentials. Please try again.');
@@ -73,11 +72,15 @@ const Login = ({ navigation }: any) => {
         />
       </View>
 
-        {loading }
       {/* Login Button */}
+        {loading? ( 
+          <ActivityIndicator color='red'/>
+        ):(
       <TouchableOpacity style={styles.button} onPress={signIn}>
         <Text style={styles.buttonText}>LOG IN</Text>
       </TouchableOpacity>
+        )}
+      <TouchableOpacity>Reset password?</TouchableOpacity>
       </KeyboardAvoidingView>
     </View>
   );
