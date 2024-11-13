@@ -35,7 +35,7 @@ const Layout = () => {
         <Stack.Screen 
           name="LecturerDashboard" 
           component={LecturerDashboard} 
-          options={{ headerTitle: 'Lecturer Dashboard' }} // Optional: Customize header
+          options={{ headerShown: false }} // Optional: Customize header
         />
         <Stack.Screen 
           name="Scan" 
