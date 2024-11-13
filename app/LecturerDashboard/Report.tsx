@@ -1,10 +1,18 @@
 import React from "react";
-import { View, Text, StyleSheet, FlatList, Alert } from "react-native";
+import { View, Text, StyleSheet, FlatList } from "react-native";
 
-const Report = ({ route }) => {
+interface Student {
+  name: string;
+  regNumber: string;
+  status: string;
+}
+
+const Report: React.FC<{ route: { params: { students: Student[] } } }> = ({
+  route,
+}) => {
   const { students } = route.params;
 
-  const renderItem = ({ item }) => (
+  const renderItem = ({ item }: { item: Student }) => (
     <View style={styles.item}>
       <Text style={styles.column}>{item.name}</Text>
       <Text style={styles.column}>{item.regNumber}</Text>
