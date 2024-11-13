@@ -14,6 +14,12 @@ import CreateUser from '@/app/AdminDashboard/CreateUser';
 import deleteUser from '@/app/AdminDashboard/deleteUser';
 import updateUser from '@/app/AdminDashboard/updateUser';
 import UpdateAttendance from '@/app/AdminDashboard/UpdateAttendance';
+import Notification from '../StudentDashboard/Notification';
+import Assigned from '../StudentDashboard/Assigned';
+import Missed from '../StudentDashboard/Missed';
+import Scan from '../LecturerDashboard/Scan';
+
+
 
 // Create a stack navigator instance
 const Stack = createStackNavigator();
@@ -26,6 +32,11 @@ const Layout = () => {
           name="Login" 
           component={Login} 
           options={{ headerShown: false }} // Hide header for the login screen if needed
+        />
+        <Stack.Screen 
+          name="Scan" 
+          component={Scan} 
+          options={{ headerTitle: 'Scan ID' }} // Optional: Customize header
         />
         <Stack.Screen 
           name="LecturerDashboard" 
@@ -76,6 +87,21 @@ const Layout = () => {
           name="CreateUser" 
           component={CreateUser} 
           options={{ headerTitle: 'CreateUser' }} // Optional: Customize header
+        />
+        <Stack.Screen 
+          name="Notification" 
+          component={Notification} 
+          options={{ headerTitle: 'Notifications' }} // Optional: Customize header
+        />
+        <Stack.Screen 
+          name="Missed" 
+          component={Missed} 
+          options={{ headerTitle: 'Missed' }} // Optional: Customize header
+        />
+        <Stack.Screen 
+          name="Assigned" 
+          component={Assigned} 
+          options={{ headerTitle: 'Assigned' }} // Optional: Customize header
         />
 
       </Stack.Navigator>
