@@ -37,7 +37,8 @@ const Login = ({ navigation }: any) => {
     }
   }
   return (
-    <KeyboardAvoidingView style={styles.container}>
+    <View style={styles.container}>
+    <KeyboardAvoidingView >
       {/* Logo */}
       <Image 
         source={{ uri: 'https://png.pngtree.com/png-clipart/20211017/original/pngtree-school-logo-png-image_6851480.png' }}
@@ -77,6 +78,7 @@ const Login = ({ navigation }: any) => {
         </TouchableOpacity>
       )}
     </KeyboardAvoidingView>
+    </View>
   );
 };
 
