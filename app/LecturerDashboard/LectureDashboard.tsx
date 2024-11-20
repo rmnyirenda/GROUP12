@@ -5,7 +5,7 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { useNavigation } from '@react-navigation/native';
 import { signOut,getAuth } from 'firebase/auth';
 
-// Define types for your stack navigator
+
 type RootStackParamList = {
   LecturerDashboard: undefined;
   Events: undefined;
