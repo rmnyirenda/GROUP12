@@ -1,11 +1,9 @@
-
 import React, { useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Alert, Linking, Image, SafeAreaView, TextInput } from 'react-native';
 import { BarCodeScanner } from 'expo-barcode-scanner';
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
-
 
 // Define a type for your screen parameters
 type RootStackParamList = {
@@ -120,8 +118,11 @@ const Attendance = () => {
         </TouchableOpacity>
       </View>
 
-      {/* View Report Button */}
-      <TouchableOpacity onPress={handleViewReport} style={styles.button}>
+     
+      <View style={{ flex: 1 }} />
+
+      
+      <TouchableOpacity onPress={handleViewReport} style={styles.bottomButton}>
         <Text style={styles.buttonText}>View Report</Text>
       </TouchableOpacity>
     </SafeAreaView>
@@ -141,6 +142,7 @@ const styles = StyleSheet.create({
   buttonText: { color: '#fff', fontSize: 16, fontWeight: 'bold' },
   inputContainer: { alignItems: 'center', marginTop: 20 },
   input: { width: '80%', padding: 10, borderColor: '#ccc', borderWidth: 1, borderRadius: 5, marginBottom: 10 },
+  bottomButton: { backgroundColor: '#4285F4', paddingVertical: 12, paddingHorizontal: 20, borderRadius: 30, alignItems: 'center', marginBottom: 20 },
 });
 
 export default Attendance;
