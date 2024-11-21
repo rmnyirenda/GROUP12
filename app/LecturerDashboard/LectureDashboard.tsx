@@ -4,7 +4,7 @@ import { Ionicons, FontAwesome5 } from '@expo/vector-icons';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { useNavigation } from '@react-navigation/native';
 
-// Define types for your stack navigator
+
 type RootStackParamList = {
   LecturerDashboard: undefined;
   Events: undefined;

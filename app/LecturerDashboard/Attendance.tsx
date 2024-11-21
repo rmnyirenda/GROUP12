@@ -3,9 +3,18 @@ import { View, Text, TouchableOpacity, StyleSheet, Alert, Linking, Image, SafeAr
 import { BarCodeScanner } from 'expo-barcode-scanner';
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack';
+
+// Define a type for your screen parameters
+type RootStackParamList = {
+  Attendance: undefined;
+  Report: { students: { name: string; status: string; }[] };
+};
 
 const SPREADSHEET_URL = 'https://docs.google.com/spreadsheets/d/YOUR_SPREADSHEET_ID/edit';
 const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz62E1v1KKYh4HLmop3056saTAdR_-3Pp7a3VESgxqMp8raw33eLWyaroUr_ivA4BuO5Q/exec';
+
+type ReportScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Report'>;
 
 const Attendance = () => {
   const [hasPermission, setHasPermission] = useState<boolean | null>(null);
@@ -13,7 +22,7 @@ const Attendance = () => {
   const [data, setData] = useState<string>('');
   const [inputRegNumber, setInputRegNumber] = useState<string>('');
   const [students, setStudents] = useState<{ name: string; status: string }[]>([]);
-  const navigation = useNavigation();
+  const navigation = useNavigation<ReportScreenNavigationProp>();
 
   useEffect(() => {
     (async () => {
@@ -29,8 +38,26 @@ const Attendance = () => {
     sendDataToGoogleSheet(data);
   };
 
-  const sendDataToGoogleSheet = async (regNumber: string) => { try { const response = await fetch(SCRIPT_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id: regNumber }) }); const result = await response.json(); if (result.status === 'success') { const student = { name: result.name, regNumber: regNumber, status: 'Attended' }; setStudents(prevStudents => [...prevStudents, student]); Alert.alert('Success', `Student Name: ${result.name}`); } 
-  else { Alert.alert('Error', 'Student not found'); } } catch (error) { Alert.alert('Error', 'An error occurred while sending data to Google Sheets'); } };
+  const sendDataToGoogleSheet = async (regNumber: string) => { 
+    try { 
+      const response = await fetch(SCRIPT_URL, { 
+        method: 'POST', 
+        headers: { 'Content-Type': 'application/json' }, 
+        body: JSON.stringify({ id: regNumber }) 
+      }); 
+      const result = await response.json(); 
+      if (result.status === 'success') { 
+        const student = { name: result.name, regNumber: regNumber, status: 'Attended' }; 
+        setStudents(prevStudents => [...prevStudents, student]); 
+        Alert.alert('Success', `Student Name: ${result.name}`); 
+      } else { 
+        Alert.alert('Error', 'Student not found'); 
+      } 
+    } catch (error) { 
+      Alert.alert('Error', 'An error occurred while sending data to Google Sheets'); 
+    } 
+  };
+
   const handleManualSubmit = () => {
     if (inputRegNumber.trim() === '') {
       Alert.alert('Error', 'Please enter a registration number');
@@ -57,7 +84,7 @@ const Attendance = () => {
         <Text style={styles.headerText}>EXAMINATION ATTENDANCE</Text>
       </View>
       <View style={styles.navbar}>
-        <TouchableOpacity onPress={() => navigation.navigate('LecturerDashboard')}>
+        <TouchableOpacity onPress={() => navigation.navigate('LectureDashboard')}>
           <Ionicons name="home" size={30} color="black" style={styles.iconLeft} />
         </TouchableOpacity>
         <TouchableOpacity onPress={() => Alert.alert('Profile menu: Log out')}>
