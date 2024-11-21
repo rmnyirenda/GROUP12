@@ -19,16 +19,20 @@ const Report: React.FC<Props> = ({ route }) => {
   return (
     <View style={styles.container}>
       <Text style={styles.header}>Attendance Report</Text>
-      <FlatList
-        data={students}
-        keyExtractor={(item) => item.name}
-        renderItem={({ item }) => (
-          <View style={styles.item}>
-            <Text>Name: {item.name}</Text>
-            <Text>Status: {item.status}</Text>
-          </View>
-        )}
-      />
+      {students.length === 0 ? (
+        <Text style={styles.noStudentsText}>No student attended the exam yet!</Text>
+      ) : (
+        <FlatList
+          data={students}
+          keyExtractor={(item) => item.name}
+          renderItem={({ item }) => (
+            <View style={styles.item}>
+              <Text>Name: {item.name}</Text>
+              <Text>Status: {item.status}</Text>
+            </View>
+          )}
+        />
+      )}
     </View>
   );
 };
@@ -36,6 +40,7 @@ const Report: React.FC<Props> = ({ route }) => {
 const styles = StyleSheet.create({
   container: { flex: 1, padding: 20, backgroundColor: '#fff' },
   header: { fontSize: 24, fontWeight: 'bold', marginBottom: 20 },
+  noStudentsText: { fontSize: 18, fontStyle: 'italic', color: '#666' },
   item: { padding: 10, borderBottomWidth: 1, borderBottomColor: '#ccc' },
 });
 
