@@ -86,11 +86,15 @@ const UploadedExamScreen: React.FC<Props> = ({ studentId }) => {
           <Text style={styles.logoutText}>Logout</Text>
         </TouchableOpacity>
       </View>
-      <FlatList
-        data={notifications}
-        keyExtractor={item => item.id}
-        renderItem={renderNotification}
-      />
+      {notifications.length === 0 ? (
+        <Text style={styles.noNotificationsText}>Relax No exams uploaded yet.</Text>
+      ) : (
+        <FlatList
+          data={notifications}
+          keyExtractor={item => item.id}
+          renderItem={renderNotification}
+        />
+      )}
     </SafeAreaView>
   );
 }
@@ -107,6 +111,7 @@ const styles = StyleSheet.create({
   logoutText: { fontSize: 12, color: '#000' },
   notification: { padding: 16, marginBottom: 16, borderWidth: 1, borderColor: '#ccc', borderRadius: 4 },
   title: { fontSize: 18, fontWeight: 'bold' },
+  noNotificationsText: { flex: 1, justifyContent: 'center', alignItems: 'center', fontSize: 18, color: '#aaa', marginTop: 20 },
 });
 
 export default UploadedExamScreen;
