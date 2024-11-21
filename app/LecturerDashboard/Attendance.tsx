@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Alert, Linking, Image, SafeAreaView, TextInput } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, Alert, Image, SafeAreaView, TextInput } from 'react-native';
 import { BarCodeScanner } from 'expo-barcode-scanner';
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
@@ -9,6 +9,7 @@ import { StackNavigationProp } from '@react-navigation/stack';
 type RootStackParamList = {
   Attendance: undefined;
   Report: { students: { name: string; status: string; }[] };
+  LecturerDashboard: undefined;  // Add this line to define LecturerDashboard
 };
 
 const SPREADSHEET_URL = 'https://docs.google.com/spreadsheets/d/YOUR_SPREADSHEET_ID/edit';
@@ -38,24 +39,24 @@ const Attendance = () => {
     sendDataToGoogleSheet(data);
   };
 
-  const sendDataToGoogleSheet = async (regNumber: string) => { 
-    try { 
-      const response = await fetch(SCRIPT_URL, { 
-        method: 'POST', 
-        headers: { 'Content-Type': 'application/json' }, 
-        body: JSON.stringify({ id: regNumber }) 
-      }); 
-      const result = await response.json(); 
-      if (result.status === 'success') { 
-        const student = { name: result.name, regNumber: regNumber, status: 'Attended' }; 
-        setStudents(prevStudents => [...prevStudents, student]); 
-        Alert.alert('Success', `Student Name: ${result.name}`); 
-      } else { 
-        Alert.alert('Error', 'Student not found'); 
-      } 
-    } catch (error) { 
-      Alert.alert('Error', 'An error occurred while sending data to Google Sheets'); 
-    } 
+  const sendDataToGoogleSheet = async (regNumber: string) => {
+    try {
+      const response = await fetch(SCRIPT_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id: regNumber })
+      });
+      const result = await response.json();
+      if (result.status === 'success') {
+        const student = { name: result.name, regNumber: regNumber, status: 'Attended' };
+        setStudents(prevStudents => [...prevStudents, student]);
+        Alert.alert('Success', `Student Name: ${result.name}`);
+      } else {
+        Alert.alert('Error', 'Student not found');
+      }
+    } catch (error) {
+      Alert.alert('Error', 'An error occurred while sending data to Google Sheets');
+    }
   };
 
   const handleManualSubmit = () => {
@@ -84,7 +85,7 @@ const Attendance = () => {
         <Text style={styles.headerText}>EXAMINATION ATTENDANCE</Text>
       </View>
       <View style={styles.navbar}>
-        <TouchableOpacity onPress={() => navigation.navigate('LectureDashboard')}>
+        <TouchableOpacity onPress={() => navigation.navigate('LecturerDashboard')}>
           <Ionicons name="home" size={30} color="black" style={styles.iconLeft} />
         </TouchableOpacity>
         <TouchableOpacity onPress={() => Alert.alert('Profile menu: Log out')}>
@@ -118,10 +119,10 @@ const Attendance = () => {
         </TouchableOpacity>
       </View>
 
-     
+      {/* Spacer to push the View Report button to the bottom */}
       <View style={{ flex: 1 }} />
 
-      
+      {/* View Report Button */}
       <TouchableOpacity onPress={handleViewReport} style={styles.bottomButton}>
         <Text style={styles.buttonText}>View Report</Text>
       </TouchableOpacity>
