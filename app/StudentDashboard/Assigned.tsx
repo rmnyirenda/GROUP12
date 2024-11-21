@@ -18,7 +18,7 @@ interface Props {
 
 const fetchExamNotifications = async (studentId: string): Promise<ExamNotification[]> => {
   try {
-    const response = await fetch(`YOUR_WEB_APP_URL?studentId=${studentId}`, {
+    const response = await fetch(`https://script.google.com/macros/s/AKfycbyf-JsWdSOwIEq0ebnKEU-pw8xcslz9dWsv4m1Im-QH_yl0XsIKHu0Iej53FEtFOZDa/exec?studentId=${studentId}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
