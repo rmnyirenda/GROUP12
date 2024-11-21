@@ -4,18 +4,20 @@ import { BarCodeScanner } from 'expo-barcode-scanner';
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
+import { signOut, getAuth } from 'firebase/auth';
 
 // Define a type for your screen parameters
 type RootStackParamList = {
   Attendance: undefined;
   Report: { students: { name: string; status: string; }[] };
-  LecturerDashboard: undefined;  // Add this line to define LecturerDashboard
+  LecturerDashboard: undefined;
+  Login: undefined; // Added Login here
 };
 
 const SPREADSHEET_URL = 'https://docs.google.com/spreadsheets/d/YOUR_SPREADSHEET_ID/edit';
 const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz62E1v1KKYh4HLmop3056saTAdR_-3Pp7a3VESgxqMp8raw33eLWyaroUr_ivA4BuO5Q/exec';
 
-type ReportScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Report'>;
+type AttendanceScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Attendance'>;
 
 const Attendance = () => {
   const [hasPermission, setHasPermission] = useState<boolean | null>(null);
@@ -23,7 +25,7 @@ const Attendance = () => {
   const [data, setData] = useState<string>('');
   const [inputRegNumber, setInputRegNumber] = useState<string>('');
   const [students, setStudents] = useState<{ name: string; status: string }[]>([]);
-  const navigation = useNavigation<ReportScreenNavigationProp>();
+  const navigation = useNavigation<AttendanceScreenNavigationProp>();
 
   useEffect(() => {
     (async () => {
@@ -71,6 +73,26 @@ const Attendance = () => {
     navigation.navigate('Report', { students });
   };
 
+  const handleLogout = async () => {
+    try {
+      const auth = getAuth();
+      await signOut(auth);
+      navigation.reset({
+        index: 0,
+        routes: [{ name: 'Login' }]
+      });
+    } catch (error) {
+      Alert.alert(
+        'Logout',
+        'Do you want to log out?',
+        [
+          { text: 'Cancel', style: 'cancel' },
+          { text: 'Logout', onPress: () => console.log('Logged out') }
+        ]
+      );
+    }
+  };
+
   if (hasPermission === null) {
     return <Text>Requesting for camera permission</Text>;
   }
@@ -88,8 +110,9 @@ const Attendance = () => {
         <TouchableOpacity onPress={() => navigation.navigate('LecturerDashboard')}>
           <Ionicons name="home" size={30} color="black" style={styles.iconLeft} />
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => Alert.alert('Profile menu: Log out')}>
+        <TouchableOpacity onPress={handleLogout} style={styles.iconContainer}>
           <Ionicons name="person-circle" size={30} color="black" style={styles.iconRight} />
+          <Text style={styles.logoutText}>Logout</Text>
         </TouchableOpacity>
       </View>
 
@@ -136,8 +159,10 @@ const styles = StyleSheet.create({
   logo: { width: 60, height: 60, resizeMode: 'contain' },
   headerText: { color: '#FFFFFF', fontSize: 18, fontWeight: 'bold', marginTop: 5 },
   navbar: { justifyContent: 'space-between', width: '100%', flexDirection: 'row', alignItems: 'center', backgroundColor: '#FFFFFF', paddingHorizontal: 15, paddingVertical: 10 },
+  iconContainer: { alignItems: 'center' },
   iconLeft: { position: 'absolute', left: 0 },
   iconRight: { position: 'absolute', right: 0 },
+  logoutText: { fontSize: 12, color: '#000' },
   buttonContainer: { alignItems: 'center', marginTop: 50 },
   button: { backgroundColor: '#4285F4', paddingVertical: 12, paddingHorizontal: 20, borderRadius: 30, alignItems: 'center', marginTop: 20 },
   buttonText: { color: '#fff', fontSize: 16, fontWeight: 'bold' },
