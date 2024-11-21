@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Alert, Linking, Image, SafeAreaView, TextInput } from 'react-native';
 import { BarCodeScanner } from 'expo-barcode-scanner';
