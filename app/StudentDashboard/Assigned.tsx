@@ -78,7 +78,7 @@ const UploadedExamScreen: React.FC<Props> = ({ studentId }) => {
         <Text style={styles.headerText}>Exam Notifications</Text>
       </View>
       <View style={styles.navbar}>
-        <TouchableOpacity onPress={() => navigation.navigate('LecturerDashboard')}>
+        <TouchableOpacity onPress={() => navigation.navigate('StudentDashboard')}>
           <Ionicons name="home" size={30} color="black" style={styles.iconLeft} />
         </TouchableOpacity>
         <TouchableOpacity onPress={handleLogout} style={styles.iconContainer}>
@@ -87,7 +87,7 @@ const UploadedExamScreen: React.FC<Props> = ({ studentId }) => {
         </TouchableOpacity>
       </View>
       {notifications.length === 0 ? (
-        <Text style={styles.noNotificationsText}>Relax No exams uploaded yet.</Text>
+        <Text style={styles.noNotificationsText}>No exams uploaded yet.</Text>
       ) : (
         <FlatList
           data={notifications}
