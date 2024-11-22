@@ -1,60 +1,44 @@
 import React from 'react';
-import { DataGrid, GridColDef, GridValueGetter } from '@mui/x-data-grid';
-import Paper from '@mui/material/Paper';
-import { View } from 'react-native';
-
-interface Person {
-  id: number;
-  firstName: string | null;
-  lastName: string | null;
-  age: number | null;
-}
+import { View, StyleSheet } from 'react-native';
+import { DataTable } from 'react-native-paper';
 
 const Events: React.FC = () => {
-  const columns: GridColDef[] = [
-    { field: 'id', headerName: 'ID', width: 70 },
-    { field: 'firstName', headerName: 'First name', width: 130 },
-    { field: 'lastName', headerName: 'Last name', width: 130 },
-    {
-      field: 'age',
-      headerName: 'Age',
-      type: 'number',
-      width: 90,
-    },
-    {
-      field: 'fullName',
-      headerName: 'Full name',
-      description: 'This column has a value getter and is not sortable.',
-      sortable: false,
-      width: 160,
-     
-    },
-  ];
-
   const rows = [
-    { id: 1, lastName: 'Nyirenda', firstName: 'Rosemary', age: 35 },
-    { id: 2, lastName: 'Chirambo', firstName: 'Tiwonge', age: 42 },
-    { id: 3, lastName: 'Majawa', firstName: 'Philip', age: 45 },
-    { id: 4, lastName: 'Kumwenda', firstName: 'Yohane', age: 16 },
-    { id: 5, lastName: 'Sawasa', firstName: 'Martha', age: null },
+    { id: 1, firstName: 'Rosemary', lastName: 'Nyirenda', age: 35 },
+    { id: 2, firstName: 'Tiwonge', lastName: 'Chirambo', age: 42 },
+    { id: 3, firstName: 'Philip', lastName: 'Majawa', age: 45 },
+    { id: 4, firstName: 'Yohane', lastName: 'Kumwenda', age: 16 },
+    { id: 5, firstName: 'Martha', lastName: 'Sawasa', age: null },
   ];
-
-  const paginationModel = { page: 0, pageSize: 5 };
 
   return (
-    <View>
-      <Paper sx={{ height: 400, width: '100%' }}>
-        <DataGrid
-          rows={rows}
-          columns={columns}
-          initialState={{ pagination: { paginationModel } }}
-          pageSizeOptions={[5, 10]}
-          checkboxSelection
-          sx={{ border: 0 }}
-        />
-      </Paper>
+    <View style={styles.container}>
+      <DataTable>
+        <DataTable.Header>
+          <DataTable.Title>ID</DataTable.Title>
+          <DataTable.Title>First Name</DataTable.Title>
+          <DataTable.Title>Last Name</DataTable.Title>
+          <DataTable.Title numeric>Age</DataTable.Title>
+        </DataTable.Header>
+
+        {rows.map((row) => (
+          <DataTable.Row key={row.id}>
+            <DataTable.Cell>{row.id}</DataTable.Cell>
+            <DataTable.Cell>{row.firstName}</DataTable.Cell>
+            <DataTable.Cell>{row.lastName}</DataTable.Cell>
+            <DataTable.Cell numeric>{row.age}</DataTable.Cell>
+          </DataTable.Row>
+        ))}
+      </DataTable>
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 16,
+  },
+});
 
 export default Events;
