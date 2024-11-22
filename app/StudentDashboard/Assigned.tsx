@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, FlatList, StyleSheet, Alert, TouchableOpacity, Image, SafeAreaView } from 'react-native';
+import { View, Text, FlatList, StyleSheet, Alert, TouchableOpacity, Image, SafeAreaView, TextInput, Button } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { getAuth, signOut } from 'firebase/auth';
@@ -12,13 +12,9 @@ interface ExamNotification {
   time: string;
 }
 
-interface Props {
-  studentId: string;
-}
-
-const fetchExamNotifications = async (studentId: string): Promise<ExamNotification[]> => {
+const fetchExamNotifications = async (regNumber: string): Promise<ExamNotification[]> => {
   try {
-    const response = await fetch(`https://script.google.com/macros/s/AKfycbyf-JsWdSOwIEq0ebnKEU-pw8xcslz9dWsv4m1Im-QH_yl0XsIKHu0Iej53FEtFOZDa/exec?studentId=${studentId}`, {
+    const response = await fetch(`https://script.google.com/macros/s/AKfycbz-dg4vlTxS9BllFLB8insPlyuUzWwNS_xwFvsn8AJ2o9tlll2YmgJvxSOT6f_q5H3y/exec?regNumber=${regNumber}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -37,17 +33,20 @@ const fetchExamNotifications = async (studentId: string): Promise<ExamNotificati
   }
 };
 
-const UploadedExamScreen: React.FC<Props> = ({ studentId }) => {
+const UploadedExamScreen: React.FC = () => {
   const [notifications, setNotifications] = useState<ExamNotification[]>([]);
+  const [regNumber, setRegNumber] = useState<string>('');
+  const [hasFetched, setHasFetched] = useState<boolean>(false);
   const navigation = useNavigation();
 
-  useEffect(() => {
-    fetchExamNotifications(studentId).then(data => {
+  const fetchNotifications = () => {
+    fetchExamNotifications(regNumber).then(data => {
       setNotifications(data);
+      setHasFetched(true);
     }).catch(error => {
       Alert.alert('Error', 'Failed to fetch notifications');
     });
-  }, [studentId]);
+  };
 
   const handleLogout = async () => {
     try {
@@ -86,7 +85,16 @@ const UploadedExamScreen: React.FC<Props> = ({ studentId }) => {
           <Text style={styles.logoutText}>Logout</Text>
         </TouchableOpacity>
       </View>
-      {notifications.length === 0 ? (
+      <TextInput
+        style={styles.input}
+        placeholder="Enter Registration Number"
+        value={regNumber}
+        onChangeText={setRegNumber}
+      />
+      <Button title="Search Available Exam" onPress={fetchNotifications} />
+      {!hasFetched ? (
+        <Text style={styles.noNotificationsText}>Enter your registration number to view exam notifications.</Text>
+      ) : notifications.length === 0 ? (
         <Text style={styles.noNotificationsText}>No exams uploaded yet.</Text>
       ) : (
         <FlatList
@@ -109,6 +117,7 @@ const styles = StyleSheet.create({
   iconLeft: { position: 'absolute', left: 0 },
   iconRight: { position: 'absolute', right: 0 },
   logoutText: { fontSize: 12, color: '#000' },
+  input: { borderWidth: 1, borderColor: '#ccc', padding: 8, marginBottom: 16, borderRadius: 4 },
   notification: { padding: 16, marginBottom: 16, borderWidth: 1, borderColor: '#ccc', borderRadius: 4 },
   title: { fontSize: 18, fontWeight: 'bold' },
   noNotificationsText: { flex: 1, justifyContent: 'center', alignItems: 'center', fontSize: 18, color: '#aaa', marginTop: 20 },
