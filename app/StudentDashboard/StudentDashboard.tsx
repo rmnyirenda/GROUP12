@@ -1,129 +1,236 @@
-import React from "react";
-import { View,Text, TouchableOpacity, Button ,StyleSheet} from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
-import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
-import Feather from '@expo/vector-icons/Feather';
-import FontAwesome from '@expo/vector-icons/FontAwesome';
-import Ionicons from '@expo/vector-icons/Ionicons';
+import React, { useState } from 'react';
+import { View, Text, TouchableOpacity, StyleSheet, Image, Alert, Modal } from 'react-native';
+import { Ionicons, FontAwesome5 } from '@expo/vector-icons';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { useNavigation } from '@react-navigation/native';
 
-const StudentDashboard= ()=>{
-    
-    return(
-      <>
-      <View style={style.logo}>
-    <FontAwesome5 name="school" size={54} color="black" />
-    <Text style={style.head}>EXAM ATTENDACE</Text>
-    </View>
-   <SafeAreaView>
-    
-    <View style={style.view}>
-    <View style={style.menu}>
-    <Feather name="menu" size={24} color="black" />
-    </View>
-    <View style={style.notification}>
-    <Ionicons name="notifications" size={24} color="black" />
-    </View>
-    <View style={style.user}>
-    <FontAwesome name="user-circle-o" size={24} color="black" />
-    </View>
-    </View>
-    <View >
-    <View style={style.box}>
-            <TouchableOpacity style={style.container1}>
-              <Text>ASSIGNED</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={style.container2}>
-              <Text>MISSED</Text>
-            </TouchableOpacity>
-            </View>
-            <View style={style.box2}>
-            <TouchableOpacity style={style.container3}>
-            <Text style={style.text}>EVENTS</Text>
-            </TouchableOpacity>
-            </View>
-            
-            </View>
-   </SafeAreaView> 
-   </>
-    );
+// Define types for your stack navigator
+type RootStackParamList = {
+  StudentDashboard: undefined;
+  Events: undefined;
+  Attendance: undefined;
+  Report: undefined;
 };
-export default StudentDashboard;
 
-const style = StyleSheet.create({
-  container1:{
-    alignItems:'flex-start',
-    right:15,
-    paddingHorizontal:50,
-    paddingVertical:45,
-    borderRadius:1,
-    borderWidth:1,
-    marginRight:1,
-    marginLeft:32,
-    
-  },
-  container2:{
-    alignItems:'flex-end',
-    paddingHorizontal:30,
-    paddingVertical:45,
-    left:10,
-    borderRadius:1,
-    borderWidth:1,
-    marginRight:32,
-    marginLeft:2,
-  
-  },
-  container3:{
-    alignItems:'center',
-    textAlign:'center',
-    paddingHorizontal:10,
-    paddingVertical:43,
-    borderRadius:1,
-    borderWidth:1,
-    marginRight:62,
-    marginLeft:62,
-    top:10,
-    
-  },
-  box:{
-    flexDirection: 'row', 
-    marginTop:150,
-    marginBottom:10,
-  
-  },
-  box2:{
-    marginTop:3,
-    marginBottom:10,
-  },
-  text:{
-    color:"#060202",
-    borderBlockColor:"#060209"
-  },
-  head:{
-    fontSize: 32,
-    textDecorationColor:"#060202",
-    textShadowRadius:7
-  },
-  logo:{
-    justifyContent:'center',
-    alignItems:'center',
-    backgroundColor: "#1A43BF",
-    paddingVertical:12
+// Define the prop type for navigation
+type StudentDashboardScreenProp = StackNavigationProp<RootStackParamList, 'StudentDashboard'>;
 
+export default function StudentDashboard() {
+  // State for menu modal
+  const [isMenuVisible, setMenuVisible] = useState(false);
+  const navigation = useNavigation<StudentDashboardScreenProp>();
+
+  // Function to handle logout prompt
+  const handleLogoutPrompt = () => {
+    Alert.alert(
+      "Logout",
+      "Do you want to log out?",
+      [
+        { text: "Cancel", style: "cancel" },
+        { text: "Logout", onPress: () => console.log("Logged out") }
+      ]
+    );
+  };
+
+  // Function to handle menu option selection
+  const handleMenuOption = (option: string) => {
+    setMenuVisible(false);
+    switch (option) {
+      case 'Change Password':
+        console.log("Navigate to Change Password");
+        break;
+      case 'Personal Details':
+        console.log("Navigate to Personal Details");
+        break;
+      case 'Logout':
+        handleLogoutPrompt();
+        break;
+      default:
+        break;
+    }
+  };
+
+  return (
+    <View style={styles.container}>
+      {/* Header */}
+      <View style={styles.header}>
+        <Image source={{ uri: 'https://png.pngtree.com/png-clipart/20211017/original/pngtree-school-logo-png-image_6851480.png' }} style={styles.logo} />
+        <Text style={styles.headerText}>EXAMINATION ATTENDANCE</Text>
+      </View>
+
+      {/* Navbar */}
+      <View style={styles.navbar}>
+        <TouchableOpacity onPress={() => setMenuVisible(true)}>
+          <Ionicons name="menu" size={24} color="black" style={styles.menuIcon} />
+        </TouchableOpacity>
+        <TouchableOpacity>
+       <Ionicons name="notifications" size={24} color="black" style={styles.notification}/>
+      </TouchableOpacity>
+        <TouchableOpacity onPress={handleLogoutPrompt}>
+          <Ionicons name="person-circle" size={24} color="black" style={styles.user} />
+        </TouchableOpacity>
+      </View>
+
+      {/* Banner Image */}
+      <Image
+        source={{ uri: 'https://th.bing.com/th/id/OIP.JChicOlbhmqJi2hBifBPEQHaDP?rs=1&pid=ImgDetMain' }}
+        style={styles.bannerImage}
+      />
+
+      {/* Buttons */}
+      <View style={styles.buttonsContainer}>
+        <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Events')}>
+          <FontAwesome5 name="user-check" size={24} color="black" />
+          <Text style={styles.buttonText}>ASSIGNED</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity style={[styles.button, styles.attendanceButton]} onPress={() => navigation.navigate('Attendance')}>
+          <FontAwesome5 name="user-check" size={24} color="black" />
+          <Text style={styles.buttonText}>MISSED</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity style={styles.reportButton} onPress={() => navigation.navigate('Report')}>
+          <FontAwesome5 name="calendar-alt" size={24} color="black" />
+          <Text style={styles.buttonText}>EVENTS</Text>
+        </TouchableOpacity>
+      </View>
+
+      {/* Footer */}
+      <Text style={styles.footerText}>© 2024 Student Attendance. All rights reserved</Text>
+
+      {/* Menu Modal */}
+      <Modal visible={isMenuVisible} transparent={true} animationType="slide">
+        <View style={styles.modalContainer}>
+          <View style={styles.modalContent}>
+            <TouchableOpacity onPress={() => handleMenuOption('Change Password')}>
+              <Text style={styles.menuText}>Change Password</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => handleMenuOption('Personal Details')}>
+              <Text style={styles.menuText}>Personal Details</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => handleMenuOption('Logout')}>
+              <Text style={styles.menuText}>Logout</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => setMenuVisible(false)}>
+              <Text style={styles.closeText}>Close</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#F0F0F0',
   },
-  menu:{
-    right:1,
-    
+  header: {
+    backgroundColor: '#1c1cf0',
+    alignItems: 'center',
+    padding: 10,
   },
-  user:{
-    left:303,
-    
+  logo: {
+    width: 60,
+    height: 60,
+    resizeMode: 'contain',
   },
-  view:{
-    flexDirection:'row',
-    marginTop:15
-    
+  headerText: {
+    color: '#FFFFFF',
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginTop: 5,
+  },
+  navbar: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#FFFFFF',
+    paddingHorizontal: 15,
+    paddingVertical: 10,
+  },
+  menuIcon: {
+    flex: 1,
+  },
+  welcomeText: {
+    flex: 3,
+    textAlign: 'center',
+    fontWeight: 'bold',
+    color: '#0000FF',
+  },
+  profileIcon: {
+    flex: 1,
+    textAlign: 'right',
+  },
+  bannerImage: {
+    width: '100%',
+    height: 150,
+    resizeMode: 'cover',
+    marginVertical: 10,
   },
   notification:{
-    left:250
-  }
-})
+    left:275
+  },
+  buttonsContainer: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'center',
+    padding: 10,
+  },
+  button: {
+    backgroundColor: '#B0E0E6',
+    width: '40%',
+    margin: 10,
+    padding: 20,
+    alignItems: 'center',
+    borderRadius: 10,
+  },
+  attendanceButton: {
+    backgroundColor: '#98FB98',
+  },
+  reportButton: {
+    backgroundColor: '#ADD8E6',
+    width: '80%',
+    margin: 10,
+    padding: 20,
+    alignItems: 'center',
+    borderRadius: 10,
+  },
+  buttonText: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    marginTop: 10,
+  },
+  footerText: {
+    textAlign: 'center',
+    color: '#000000',
+    fontSize: 12,
+    marginVertical: 10,
+  },
+  modalContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  },
+  modalContent: {
+    width: '80%',
+    backgroundColor: '#fff',
+    padding: 20,
+    borderRadius: 10,
+    alignItems: 'center',
+  },
+  menuText: {
+    fontSize: 18,
+    marginVertical: 10,
+  },
+  closeText: {
+    color: 'blue',
+    marginTop: 20,
+    fontSize: 16,
+  },
+  user:{
+    left:200,
+    
+  },
+});

@@ -1,29 +1,46 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, Image } from 'react-native';
-import { Picker } from '@react-native-picker/picker';
-import { Ionicons, FontAwesome } from '@expo/vector-icons';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, Image, KeyboardAvoidingView } from 'react-native';
+import {  FontAwesome } from '@expo/vector-icons';
+import {Firebase_Auth} from '../../firebaseConfig'
+import { signInWithEmailAndPassword } from 'firebase/auth';
+
 
 const Login = ({ navigation }: any) => {
-  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [userType, setUserType] = useState('student');
+  const[loading,setLoading] = useState(false);
+  const auth = Firebase_Auth;
 
-  const handleLogin = () => {
-    if (username === 'admin' && password === 'password') {
-      if (userType === 'lecturer') {
-        navigation.navigate('LecturerDashboard');
-      } else if (userType === 'student') {
+
+  const signIn =async () => {
+    setLoading(true);
+    try{
+      const response = await signInWithEmailAndPassword(auth, email, password);
+      console.log(response);
+    }
+    catch(error){
+      console.log(error);
+    }finally{
+      setLoading(false);
+    }
+    if (email === 'stud001@gmail.com' && password === 'stu1234567') {
         navigation.navigate('StudentDashboard');
-      } else if (userType === 'admin') {
+      } 
+      else if (email === 'letcom311@gmail.com' && password === 'le7654321') {
+        navigation.navigate('LecturerDashboard');
+      }
+       else if (email === 'admin1@gmail.com' && password === 'ad001122') 
+        {
         navigation.navigate('AdminDashboard');
       }
-    } else {
+    else {
       Alert.alert('Error', 'Invalid credentials. Please try again.');
     }
-  };
-
+  }
+ 
   return (
     <View style={styles.container}>
+      <KeyboardAvoidingView >
       {/* Logo */}
       <Image 
         source={{ uri: 'https://png.pngtree.com/png-clipart/20211017/original/pngtree-school-logo-png-image_6851480.png' }}
@@ -38,9 +55,9 @@ const Login = ({ navigation }: any) => {
         <FontAwesome name="user" size={20} color="#000" />
         <TextInput
           style={styles.input}
-          placeholder="USERNAME"
-          value={username}
-          onChangeText={setUsername}
+          placeholder="Email"
+          value={email}
+          onChangeText={setEmail}
         />
       </View>
 
@@ -50,30 +67,18 @@ const Login = ({ navigation }: any) => {
         <TextInput
           style={styles.input}
           placeholder="PASSWORD"
-          secureTextEntry
+          secureTextEntry={true}
           value={password}
           onChangeText={setPassword}
         />
       </View>
 
-      {/* User Type Picker */}
-      <View style={styles.pickerContainer}>
-        <Text style={styles.pickerLabel}>Signin as</Text>
-        <Picker
-          selectedValue={userType}
-          style={styles.picker}
-          onValueChange={(itemValue: string) => setUserType(itemValue)}
-        >
-          <Picker.Item label="Student" value="student" />
-          <Picker.Item label="Lecturer" value="lecturer" />
-          <Picker.Item label="Admin" value="admin" />
-        </Picker>
-      </View>
-
+        {loading }
       {/* Login Button */}
-      <TouchableOpacity style={styles.button} onPress={handleLogin}>
+      <TouchableOpacity style={styles.button} onPress={signIn}>
         <Text style={styles.buttonText}>LOG IN</Text>
       </TouchableOpacity>
+      </KeyboardAvoidingView>
     </View>
   );
 };

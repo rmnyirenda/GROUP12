@@ -20,6 +20,7 @@
     "@react-navigation/native": "^7.0.0",
     "@react-navigation/stack": "^7.0.0",
     "expo": "~51.0.28",
+    "expo-barcode-scanner": "~13.0.1",
     "expo-constants": "~16.0.2",
     "expo-font": "~12.0.9",
     "expo-linear-gradient": "~13.0.2",
@@ -29,6 +30,7 @@
     "expo-status-bar": "~1.12.1",
     "expo-system-ui": "~3.0.7",
     "expo-web-browser": "~13.0.3",
+    "firebase": "^11.0.1",
     "nativewind": "^4.1.23",
     "react": "18.2.0",
     "react-dom": "18.2.0",
@@ -40,8 +42,7 @@
     "react-native-web": "~0.19.10",
     "react-navigation": "^4.4.4",
     "react-navigation-stack": "^2.10.4",
-    "tailwindcss": "^3.4.14",
-    "expo-barcode-scanner": "~13.0.1"
+    "tailwindcss": "^3.4.14"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
