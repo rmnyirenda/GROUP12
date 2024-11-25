@@ -24,5 +24,5 @@
     "src/app/(tabs)/Report.tsx",
     "src/app/(tabs)/studentDashboard.tsx",
     "nativewind-env.d.ts"
-, "app/_layout.tsx", "app/(tabs)/navigate.tsx"  ]
+, "app/_layout.tsx", "app/(tabs)/navigate.tsx", "app/AdminDashboard/todo.js"  ]
 }

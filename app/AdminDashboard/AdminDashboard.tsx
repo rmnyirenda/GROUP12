@@ -3,6 +3,7 @@ import { View, Text, TouchableOpacity, StyleSheet, Image, Alert, Modal } from 'r
 import { Ionicons, FontAwesome5 } from '@expo/vector-icons';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { useNavigation } from '@react-navigation/native';
+import { signOut,getAuth } from 'firebase/auth';
 
 // Define types for your stack navigator
 type RootStackParamList = {
@@ -11,6 +12,7 @@ type RootStackParamList = {
   deleteUser: undefined;
   updateUser: undefined;
   UpdateAttendance: undefined;
+  Login: undefined
 };
 
 // Define the prop type for navigation
@@ -21,7 +23,16 @@ export default function AdminDashboard() {
   const navigation = useNavigation<AdminDashboardScreenProp>();
 
   // Function to handle logout prompt
-  const handleLogoutPrompt = () => {
+   
+   const handleLogoutPrompt = async() => {
+    try{
+    const auth = getAuth();
+     await signOut(auth);
+    navigation.reset({
+      index: 0,
+      routes: [{name :'Login'}]
+    });
+  }catch(error){
     Alert.alert(
       "Logout",
       "Do you want to log out?",
@@ -30,6 +41,7 @@ export default function AdminDashboard() {
         { text: "Logout", onPress: () => console.log("Logged out") }
       ]
     );
+  }
   };
 
   return (
@@ -76,7 +88,7 @@ export default function AdminDashboard() {
 
         <TouchableOpacity style={[styles.button, styles.updateButton]} onPress={() => navigation.navigate('UpdateAttendance')}>
           <FontAwesome5 name="edit" size={24} color="black" />
-          <Text style={styles.buttonText}>UPDATE ACCOUNT</Text>
+          <Text style={styles.buttonText}>ADD STUDENTS</Text>
         </TouchableOpacity>
       </View>
 

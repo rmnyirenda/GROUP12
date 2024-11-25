@@ -1,18 +1,10 @@
-import React, { useState } from "react";
-import {
-  View,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  StyleSheet,
-  Alert,
-  Image,
-  KeyboardAvoidingView,
-  ActivityIndicator,
-} from "react-native";
-import { FontAwesome } from "@expo/vector-icons";
-import { Firebase_Auth } from "../../firebaseConfig";
-import { signInWithEmailAndPassword } from "firebase/auth";
+
+import React, { useState } from 'react';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, Image, KeyboardAvoidingView, ActivityIndicator } from 'react-native';
+import { FontAwesome } from '@expo/vector-icons';
+import { Firebase_Auth } from '../../firebaseConfig';
+import { signInWithEmailAndPassword } from 'firebase/auth';
+
 
 const Login = ({ navigation }: any) => {
   const [email, setEmail] = useState("");
@@ -31,32 +23,37 @@ const Login = ({ navigation }: any) => {
       setLoading(false);
     }
 
-    if (
-      (email === "letcom311@gmail.com" && password === "le7654321") ||
-      (email === "letcom312@gmail.com" && password === "let12345") ||
-      (email === "letcom313@gmail.com" && password === "le123456") ||
-      (email === "letcom314@gmail.com" && password === "le1234567") ||
-      (email === "letcom315@gmail.com" && password === "le123456789")
-    ) {
-      navigation.navigate("LecturerDashboard");
-    } else {
-      Alert.alert("Error", "Invalid credentials. Please try again.");
+   
+       if (email === 'letcom311@gmail.com' && password === 'le7654321'||
+        email === 'letcom312@gmail.com' && password === 'let12345' ||
+        email === 'letcom313@gmail.com' && password === 'le123456' ||
+        email === 'letcom314@gmail.com' && password === 'le1234567' ||
+        email === 'letcom315@gmail.com' && password === 'le123456789'
+       ) {
+        navigation.navigate('LecturerDashboard');
+      }
+      else if ( email === 'stud@gmail.com' && password === '12359' ){
+        navigation.navigate('StudentDashboard');
+      }
+      else if ( email === 'Admin@gmail.com' && password === '12359' ){
+          navigation.navigate('AdminDashboard');
     }
-  };
-
+      else if(email === 'admin@gmail.com' && password === '1234560' ){
+        navigation.navigate('AdminDashboard');
+      }
+    else {
+      Alert.alert('Error', 'Invalid credentials. Please try again.');
+    }
+  }
   return (
     <View style={styles.container}>
-      <KeyboardAvoidingView>
-        {/* Logo */}
-        <Image
-          source={{
-            uri: "https://png.pngtree.com/png-clipart/20211017/original/pngtree-school-logo-png-image_6851480.png",
-          }}
-          style={styles.logo}
-        />
-
-        {/* Header */}
-        <Text style={styles.header}>SIGN IN</Text>
+    <KeyboardAvoidingView >
+      {/* Logo */}
+      <Image 
+        source={{ uri: 'https://png.pngtree.com/png-clipart/20211017/original/pngtree-school-logo-png-image_6851480.png' }}
+        style={styles.logo}
+      />
+      <Text style={styles.header}>SIGN IN</Text>
 
         {/* Username Input */}
         <View style={styles.inputContainer}>
@@ -69,28 +66,28 @@ const Login = ({ navigation }: any) => {
           />
         </View>
 
-        {/* Password Input */}
-        <View style={styles.inputContainer}>
-          <FontAwesome name="key" size={20} color="#000" />
-          <TextInput
-            style={styles.input}
-            placeholder="PASSWORD"
-            secureTextEntry={true}
-            value={password}
-            onChangeText={setPassword}
-          />
-        </View>
+      {/* Password Input */}
+      <View style={styles.inputContainer}>
+        <FontAwesome name="key" size={20} color="#000" />
+        <TextInput
+          style={styles.input}
+          placeholder="PASSWORD"
+          secureTextEntry
+          value={password}
+          onChangeText={setPassword}
+        />
+      </View>
 
-        {/* Login Button */}
-        {loading ? (
-          <ActivityIndicator color="red" />
-        ) : (
-          <TouchableOpacity style={styles.button} onPress={signIn}>
-            <Text style={styles.buttonText}>LOG IN</Text>
-          </TouchableOpacity>
-        )}
-        <TouchableOpacity>Reset password?</TouchableOpacity>
-      </KeyboardAvoidingView>
+      {/* Login Button or Loading Indicator */}
+      {loading ? (
+        <ActivityIndicator color="red" />
+      ) : (
+        <TouchableOpacity style={styles.button} onPress={signIn}>
+          <Text style={styles.buttonText}>LOG IN</Text>
+        </TouchableOpacity>
+      )}
+    </KeyboardAvoidingView>
+
     </View>
   );
 };
@@ -130,25 +127,7 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     paddingVertical: 5,
   },
-  pickerContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    borderWidth: 1,
-    borderColor: "#1c1cf0",
-    borderRadius: 8,
-    paddingHorizontal: 10,
-    marginBottom: 15,
-    width: "100%",
-  },
-  pickerLabel: {
-    fontSize: 16,
-    color: "#333",
-    marginRight: 10,
-  },
-  picker: {
-    flex: 1,
-    height: 40,
-  },
+
   button: {
     backgroundColor: "#1c1cf0",
     paddingVertical: 15,
