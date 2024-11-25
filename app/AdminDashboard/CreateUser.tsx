@@ -160,80 +160,17 @@ const handleRegistration = async () => {
   };
 
   return (
-    <View style={styles.container}>
-      <ScrollView>
-        <KeyboardAvoidingView 
-          behavior={Platform.OS === "ios" ? "padding" : "height"}
-          style={{ flex: 1 }}
-        >
-          <View style={styles.header}>
-            <Image 
-              source={{ uri: 'https://png.pngtree.com/png-clipart/20211017/original/pngtree-school-logo-png-image_6851480.png' }} 
-              style={styles.logo} 
-            />
-            <Text style={styles.headerText}>EXAMINATION ATTENDANCE</Text>
-          </View>
-
-          <View style={styles.navbar}>
-            <TouchableOpacity onPress={() => setMenuVisible(true)}>
-              <Ionicons name="menu" size={24} color="black" style={styles.menuIcon} />
-            </TouchableOpacity>
-            <Text style={styles.welcomeText}>WELCOME</Text>
-            <TouchableOpacity onPress={handleLogoutPrompt}>
-              <Ionicons name="person-circle" size={24} color="black" style={styles.profileIcon} />
-            </TouchableOpacity>
-          </View>
-
-          <View style={styles.formContainer}>
-            <TextInput
-              placeholder="Enter Name"
-              onChangeText={setUserName}
-              value={userName}
-              maxLength={50}
-              style={styles.inputContainer}
-            />
-            
-            <TextInput
-              placeholder="Enter Email"
-              onChangeText={setUserEmail}
-              value={userEmail}
-              keyboardType="email-address"
-              autoCapitalize="none"
-              maxLength={100}
-              style={styles.inputContainer}
-            />
-
-            <TouchableOpacity
-              style={[styles.button, isLoading && styles.buttonDisabled]}
-              onPress={handleRegistration}
-              disabled={isLoading}
-            >
-              <Text style={styles.buttonText}>
-                {isLoading ? 'Creating...' : 'Create User'}
-              </Text>
-            </TouchableOpacity>
-          </View>
-
-          <Modal visible={isMenuVisible} transparent={true} animationType="slide">
-            <View style={styles.modalContainer}>
-              <View style={styles.modalContent}>
-                <TouchableOpacity onPress={() => handleMenuOption('Change Password')}>
-                  <Text style={styles.menuText}>Change Password</Text>
-                </TouchableOpacity>
-                <TouchableOpacity onPress={() => handleMenuOption('Personal Details')}>
-                  <Text style={styles.menuText}>Personal Details</Text>
-                </TouchableOpacity>
-                <TouchableOpacity onPress={() => handleMenuOption('Logout')}>
-                  <Text style={styles.menuText}>Logout</Text>
-                </TouchableOpacity>
-                <TouchableOpacity onPress={() => setMenuVisible(false)}>
-                  <Text style={styles.closeText}>Close</Text>
-                </TouchableOpacity>
-              </View>
-            </View>
-          </Modal>
-        </KeyboardAvoidingView>
-      </ScrollView>
+    <View>
+      <Paper sx={{ height: 400, width: '100%' }}>
+        <DataGrid
+          rows={rows}
+          columns={columns}
+          initialState={{ pagination: { paginationModel } }}
+          pageSizeOptions={[5, 10]}
+          checkboxSelection
+          sx={{ border: 0 }}
+        />
+      </Paper>
     </View>
   );
 };
@@ -241,91 +178,8 @@ const handleRegistration = async () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F0F0F0',
-  },
-  formContainer: {
-    padding: 20,
-  },
-  header: {
-    backgroundColor: '#1c1cf0',
-    alignItems: 'center',
-    padding: 10,
-  },
-  logo: {
-    width: 60,
-    height: 60,
-    resizeMode: 'contain',
-  },
-  headerText: {
-    color: '#FFFFFF',
-    fontSize: 18,
-    fontWeight: 'bold',
-    marginTop: 5,
-  },
-  navbar: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#FFFFFF',
-    paddingHorizontal: 15,
-    paddingVertical: 10,
-  },
-  menuIcon: {
-    flex: 1,
-  },
-  welcomeText: {
-    flex: 3,
-    textAlign: 'center',
-    fontWeight: 'bold',
-    color: '#0000FF',
-  },
-  profileIcon: {
-    flex: 1,
-    textAlign: 'right',
-  },
-  inputContainer: {
-    borderWidth: 1,
-    borderColor: '#1c1cf0',
-    borderRadius: 8,
-    paddingHorizontal: 15,
-    paddingVertical: 10,
-    marginBottom: 15,
-    backgroundColor: '#FFFFFF',
-  },
-  button: {
-    backgroundColor: '#1c1cf0',
-    paddingVertical: 15,
-    borderRadius: 8,
-    alignItems: 'center',
-    marginTop: 10,
-  },
-  buttonDisabled: {
-    backgroundColor: '#999',
-  },
-  buttonText: {
-    color: '#FFFFFF',
-    fontSize: 16,
-    fontWeight: 'bold',
-  },
-  modalContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
-  },
-  modalContent: {
-    width: '80%',
-    backgroundColor: '#fff',
-    padding: 20,
-    borderRadius: 10,
-    alignItems: 'center',
-  },
-  menuText: {
-    fontSize: 18,
-    marginVertical: 10,
-  },
-  closeText: {
-    color: 'blue',
-    marginTop: 20,
-    fontSize: 16,
+    padding: 16,
   },
 });
+
+export default Events;

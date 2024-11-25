@@ -3,47 +3,44 @@ import { View, Text, TouchableOpacity, StyleSheet, Image, Alert, Modal } from 'r
 import { Ionicons, FontAwesome5 } from '@expo/vector-icons';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { useNavigation } from '@react-navigation/native';
-import { signOut,getAuth } from 'firebase/auth';
-
+import { signOut, getAuth } from 'firebase/auth';
 
 type RootStackParamList = {
   LecturerDashboard: undefined;
   Events: undefined;
-  Attendance: undefined;
-  Report: undefined;
-  Login: undefined
+  Attendance: { setStudentsCallback: (students: { name: string; status: string }[]) => void };
+  Report: { students: { name: string; status: string; }[] };
+  Login: undefined;
 };
 
 // Define the prop type for navigation
 type LecturerDashboardScreenProp = StackNavigationProp<RootStackParamList, 'LecturerDashboard'>;
 
 export default function LecturerDashboard() {
-  // State for menu modal
   const [isMenuVisible, setMenuVisible] = useState(false);
+  const [students, setStudents] = useState<{ name: string; status: string }[]>([]);
   const navigation = useNavigation<LecturerDashboardScreenProp>();
 
-  // Function to handle logout prompt
-  const handleLogoutPrompt = async() => {
-    try{
-    const auth = getAuth();
-     await signOut(auth);
-    navigation.reset({
-      index: 0,
-      routes: [{name :'Login'}]
-    });
-  }catch(error){
-    Alert.alert(
-      "Logout",
-      "Do you want to log out?",
-      [
-        { text: "Cancel", style: "cancel" },
-        { text: "Logout", onPress: () => console.log("Logged out") }
-      ]
-    );
-  }
+  const handleLogoutPrompt = async () => {
+    try {
+      const auth = getAuth();
+      await signOut(auth);
+      navigation.reset({
+        index: 0,
+        routes: [{ name: 'Login' }]
+      });
+    } catch (error) {
+      Alert.alert(
+        "Logout",
+        "Do you want to log out?",
+        [
+          { text: "Cancel", style: "cancel" },
+          { text: "Logout", onPress: () => console.log("Logged out") }
+        ]
+      );
+    }
   };
 
-  // Function to handle menu option selection
   const handleMenuOption = (option: string) => {
     setMenuVisible(false);
     switch (option) {
@@ -61,15 +58,21 @@ export default function LecturerDashboard() {
     }
   };
 
+  const handleViewReport = () => {
+    if (students.length === 0) {
+      Alert.alert("No Data", "No student has attended the exam yet.");
+      return;
+    }
+    navigation.navigate('Report', { students });
+  };
+
   return (
     <View style={styles.container}>
-      {/* Header */}
       <View style={styles.header}>
         <Image source={{ uri: 'https://png.pngtree.com/png-clipart/20211017/original/pngtree-school-logo-png-image_6851480.png' }} style={styles.logo} />
         <Text style={styles.headerText}>EXAMINATION ATTENDANCE</Text>
       </View>
 
-      {/* Navbar */}
       <View style={styles.navbar}>
         <TouchableOpacity onPress={() => setMenuVisible(true)}>
           <Ionicons name="menu" size={24} color="black" style={styles.menuIcon} />
@@ -80,34 +83,32 @@ export default function LecturerDashboard() {
         </TouchableOpacity>
       </View>
 
-      {/* Banner Image */}
       <Image
         source={{ uri: 'https://th.bing.com/th/id/OIP.JChicOlbhmqJi2hBifBPEQHaDP?rs=1&pid=ImgDetMain' }}
         style={styles.bannerImage}
       />
 
-      {/* Buttons */}
       <View style={styles.buttonsContainer}>
         <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Events')}>
           <FontAwesome5 name="calendar-alt" size={24} color="black" />
-          <Text style={styles.buttonText}>EVENTS</Text>
+          <Text style={styles.buttonText}>CREATE EXAM</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={[styles.button, styles.attendanceButton]} onPress={() => navigation.navigate('Attendance')}>
+        <TouchableOpacity style={[styles.button, styles.attendanceButton]} onPress={() => navigation.navigate('Attendance', {
+          setStudentsCallback: (newStudents: { name: string; status: string }[]) => setStudents(newStudents)
+        })}>
           <FontAwesome5 name="user-check" size={24} color="black" />
           <Text style={styles.buttonText}>ATTENDANCE</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.reportButton} onPress={() => navigation.navigate('Report')}>
+        <TouchableOpacity style={styles.reportButton} onPress={handleViewReport}>
           <FontAwesome5 name="file-alt" size={24} color="black" />
-          <Text style={styles.buttonText}>REPORT</Text>
+          <Text style={styles.buttonText}>VIEW REPORT</Text>
         </TouchableOpacity>
       </View>
 
-      {/* Footer */}
       <Text style={styles.footerText}>© 2024 Student Attendance. All rights reserved</Text>
 
-      {/* Menu Modal */}
       <Modal visible={isMenuVisible} transparent={true} animationType="slide">
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
@@ -131,108 +132,22 @@ export default function LecturerDashboard() {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#F0F0F0',
-  },
-  header: {
-    backgroundColor: '#1c1cf0',
-    alignItems: 'center',
-    padding: 10,
-  },
-  logo: {
-    width: 60,
-    height: 60,
-    resizeMode: 'contain',
-  },
-  headerText: {
-    color: '#FFFFFF',
-    fontSize: 18,
-    fontWeight: 'bold',
-    marginTop: 5,
-  },
-  navbar: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#FFFFFF',
-    paddingHorizontal: 15,
-    paddingVertical: 10,
-  },
-  menuIcon: {
-    flex: 1,
-  },
-  welcomeText: {
-    flex: 3,
-    textAlign: 'center',
-    fontWeight: 'bold',
-    color: '#0000FF',
-  },
-  profileIcon: {
-    flex: 1,
-    textAlign: 'right',
-  },
-  bannerImage: {
-    width: '100%',
-    height: 150,
-    resizeMode: 'cover',
-    marginVertical: 10,
-  },
-  buttonsContainer: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'center',
-    padding: 10,
-  },
-  button: {
-    backgroundColor: '#B0E0E6',
-    width: '40%',
-    margin: 10,
-    padding: 20,
-    alignItems: 'center',
-    borderRadius: 10,
-  },
-  attendanceButton: {
-    backgroundColor: '#98FB98',
-  },
-  reportButton: {
-    backgroundColor: '#ADD8E6',
-    width: '80%',
-    margin: 10,
-    padding: 20,
-    alignItems: 'center',
-    borderRadius: 10,
-  },
-  buttonText: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    marginTop: 10,
-  },
-  footerText: {
-    textAlign: 'center',
-    color: '#000000',
-    fontSize: 12,
-    marginVertical: 10,
-  },
-  modalContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
-  },
-  modalContent: {
-    width: '80%',
-    backgroundColor: '#fff',
-    padding: 20,
-    borderRadius: 10,
-    alignItems: 'center',
-  },
-  menuText: {
-    fontSize: 18,
-    marginVertical: 10,
-  },
-  closeText: {
-    color: 'blue',
-    marginTop: 20,
-    fontSize: 16,
-  },
-});
+  container: { flex: 1, backgroundColor: '#F0F0F0' },
+  header: { backgroundColor: '#1c1cf0', alignItems: 'center', padding: 10 },
+  logo: { width: 60, height: 60, resizeMode: 'contain' },
+  headerText: { color: '#FFFFFF', fontSize: 18, fontWeight: 'bold', marginTop: 5 },
+  navbar: { flexDirection: 'row', alignItems: 'center', backgroundColor: '#FFFFFF', paddingHorizontal: 15, paddingVertical: 10 },
+  menuIcon: { flex: 1 },
+  welcomeText: { flex: 3, textAlign: 'center', fontWeight: 'bold', color: '#0000FF' },
+  profileIcon: { flex: 1, textAlign: 'right' },
+  bannerImage: { width: '100%', height: 150, resizeMode: 'cover', marginVertical: 10 },
+  buttonsContainer: { flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center', padding: 10 },
+  button: { backgroundColor: '#B0E0E6', width: '40%', margin: 10, padding: 20, alignItems: 'center', borderRadius: 10 },
+  attendanceButton: { backgroundColor: '#98FB98' },
+  reportButton: { backgroundColor: '#ADD8E6', width: '80%', margin: 10, padding: 20, alignItems: 'center', borderRadius: 10 },
+  buttonText: { fontSize: 16, fontWeight: 'bold', marginTop: 10 },
+  footerText: { textAlign: 'center', color: '#000000', fontSize: 12, marginVertical: 10 },
+  modalContainer: { flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(0, 0, 0, 0.5)' },
+  modalContent: { width: '80%', backgroundColor: '#fff', padding: 20, borderRadius: 10, alignItems: 'center' },
+  menuText: { fontSize: 18, marginVertical: 10 },
+  closeText: { color: 'blue', marginTop: 20, fontSize: 16 }, });

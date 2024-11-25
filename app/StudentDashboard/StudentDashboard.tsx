@@ -79,17 +79,17 @@ export default function StudentDashboard() {
 
       {/* Buttons */}
       <View style={styles.buttonsContainer}>
-        <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Events')}>
+        <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Assigned')}>
           <FontAwesome5 name="user-check" size={24} color="black" />
           <Text style={styles.buttonText}>ASSIGNED</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={[styles.button, styles.attendanceButton]} onPress={() => navigation.navigate('Attendance')}>
+        <TouchableOpacity style={[styles.button, styles.attendanceButton]} onPress={() => navigation.navigate('Missed')}>
           <FontAwesome5 name="user-check" size={24} color="black" />
           <Text style={styles.buttonText}>MISSED</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.reportButton} onPress={() => navigation.navigate('Report')}>
+        <TouchableOpacity style={styles.reportButton} onPress={() => navigation.navigate('Notification')}>
           <FontAwesome5 name="calendar-alt" size={24} color="black" />
           <Text style={styles.buttonText}>EVENTS</Text>
         </TouchableOpacity>

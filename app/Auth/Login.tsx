@@ -33,8 +33,8 @@ const Login = ({ navigation }: any) => {
         navigation.navigate('LecturerDashboard');
       }
       else if ( email === 'stud@gmail.com' && password === '12359' ){
-          navigation.navigate('StudentDashboard');
-      }
+        navigation.navigate('StudentDashboard');
+    }
       else if(email === 'admin@gmail.com' && password === '1234560' ){
         navigation.navigate('AdminDashboard');
       }
