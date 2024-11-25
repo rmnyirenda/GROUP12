@@ -58,7 +58,7 @@ const UpdateUser: React.FC = () => {
   return (
     <View style={styles.container}>
       <View style={styles.box}>
-        <Text style={styles.title}>Update User Account</Text>
+        <Text style={styles.title}>UPDATE USER ACCOUNT</Text>
         <FlatList
           data={users}
           keyExtractor={(item) => item.id}
@@ -91,7 +91,7 @@ const styles = StyleSheet.create({
   },
   box: {
     width: "95%",
-    height: "90%", // Adjusted to cover most of the page height
+    height: "90%",
     padding: 20,
     borderRadius: 10,
     backgroundColor: "#fff",
