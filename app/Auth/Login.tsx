@@ -34,6 +34,9 @@ const Login = ({ navigation }: any) => {
       }
       else if ( email === 'stud@gmail.com' && password === '12359' ){
         navigation.navigate('StudentDashboard');
+
+        else if ( email === 'Admin@gmail.com' && password === '12359' ){
+          navigation.navigate('AdminDashboard');
     }
     else {
       Alert.alert('Error', 'Invalid credentials. Please try again.');
