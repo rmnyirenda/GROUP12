@@ -34,8 +34,8 @@ const Login = ({ navigation }: any) => {
       }
       else if ( email === 'stud@gmail.com' && password === '12359' ){
         navigation.navigate('StudentDashboard');
-
-        else if ( email === 'Admin@gmail.com' && password === '12359' ){
+      }
+      else if ( email === 'Admin@gmail.com' && password === '12359' ){
           navigation.navigate('AdminDashboard');
     }
       else if(email === 'admin@gmail.com' && password === '1234560' ){
