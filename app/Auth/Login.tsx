@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, Image, KeyboardAvoidingView, ActivityIndicator } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
@@ -6,23 +7,22 @@ import { signInWithEmailAndPassword } from 'firebase/auth';
 
 
 const Login = ({ navigation }: any) => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const[loading,setLoading] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
   const auth = Firebase_Auth;
 
-
-  const signIn =async () => {
+  const signIn = async () => {
     setLoading(true);
-    try{
+    try {
       const response = await signInWithEmailAndPassword(auth, email, password);
       console.log(response);
-    }
-    catch(error){
+    } catch (error) {
       console.log(error);
-    }finally{
+    } finally {
       setLoading(false);
     }
+
    
        if (email === 'letcom311@gmail.com' && password === 'le7654321'||
         email === 'letcom312@gmail.com' && password === 'let12345' ||
@@ -55,16 +55,16 @@ const Login = ({ navigation }: any) => {
       />
       <Text style={styles.header}>SIGN IN</Text>
 
-      {/* Username Input */}
-      <View style={styles.inputContainer}>
-        <FontAwesome name="user" size={20} color="#000" />
-        <TextInput
-          style={styles.input}
-          placeholder="Email"
-          value={email}
-          onChangeText={setEmail}
-        />
-      </View>
+        {/* Username Input */}
+        <View style={styles.inputContainer}>
+          <FontAwesome name="user" size={20} color="#000" />
+          <TextInput
+            style={styles.input}
+            placeholder="Email"
+            value={email}
+            onChangeText={setEmail}
+          />
+        </View>
 
       {/* Password Input */}
       <View style={styles.inputContainer}>
@@ -87,6 +87,7 @@ const Login = ({ navigation }: any) => {
         </TouchableOpacity>
       )}
     </KeyboardAvoidingView>
+
     </View>
   );
 };
@@ -94,9 +95,9 @@ const Login = ({ navigation }: any) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f9f9f9',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: "#f9f9f9",
+    alignItems: "center",
+    justifyContent: "center",
     padding: 20,
   },
   logo: {
@@ -106,38 +107,39 @@ const styles = StyleSheet.create({
   },
   header: {
     fontSize: 24,
-    fontWeight: 'bold',
-    color: '#1c1cf0',
+    fontWeight: "bold",
+    color: "#1c1cf0",
     marginBottom: 20,
   },
   inputContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     borderWidth: 1,
-    borderColor: '#1c1cf0',
+    borderColor: "#1c1cf0",
     borderRadius: 8,
     paddingHorizontal: 10,
     paddingVertical: 5,
     marginBottom: 15,
-    width: '100%',
+    width: "100%",
   },
   input: {
     flex: 1,
     marginLeft: 10,
     paddingVertical: 5,
   },
+
   button: {
-    backgroundColor: '#1c1cf0',
+    backgroundColor: "#1c1cf0",
     paddingVertical: 15,
     borderRadius: 8,
-    width: '100%',
-    alignItems: 'center',
+    width: "100%",
+    alignItems: "center",
     marginTop: 10,
   },
   buttonText: {
-    color: '#fff',
+    color: "#fff",
     fontSize: 16,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
 });
 
