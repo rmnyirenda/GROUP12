@@ -88,7 +88,7 @@ export default function AdminDashboard() {
 
         <TouchableOpacity style={[styles.button, styles.updateButton]} onPress={() => navigation.navigate('UpdateAttendance')}>
           <FontAwesome5 name="edit" size={24} color="black" />
-          <Text style={styles.buttonText}>UPDATE ACCOUNT</Text>
+          <Text style={styles.buttonText}>ADD STUDENTS</Text>
         </TouchableOpacity>
       </View>
 
