@@ -77,12 +77,12 @@ const UpdateUser: React.FC = () => {
           onChangeText={setEmail}
         />
         <Button
-          title="Update Account"
+          title="Update account"
           onPress={() => {
             console.log("Button Pressed");
             Alert.alert(
               "Confirmation",
-              "ARE YOU SURE YOU WANT TO UPDATE?",
+              "ARE YOU SURE ?",
               [
                 {
                   text: "CANCEL",
@@ -145,6 +145,7 @@ const styles = StyleSheet.create({
     alignContent: "center",
     textAlign: "center",
     fontWeight: "bold",
+    color: "grey",
   },
 });
 
