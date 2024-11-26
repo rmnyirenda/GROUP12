@@ -103,10 +103,11 @@ const styles = StyleSheet.create({
   },
 
   title: {
-    fontSize: 24,
+    fontSize: 18,
     fontWeight: "bold",
     marginBottom: 20,
     textAlign: "center",
+    textDecorationLine: "underline",
   },
   userItem: {
     padding: 15,
@@ -122,6 +123,9 @@ const styles = StyleSheet.create({
     padding: 10,
     marginVertical: 10,
     borderRadius: 5,
+    alignContent: "center",
+    textAlign: "center",
+    fontWeight: "bold",
   },
 });
 
