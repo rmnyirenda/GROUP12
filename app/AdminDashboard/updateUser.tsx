@@ -57,39 +57,63 @@ const UpdateUser: React.FC = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Update User Account</Text>
-      <FlatList
-        data={users}
-        keyExtractor={(item) => item.id}
-        renderItem={({ item }) => (
-          <TouchableOpacity onPress={() => handleSelectUser(item)}>
-            <View style={styles.userItem}>
-              <Text style={styles.userEmail}>{item.email}</Text>
-            </View>
-          </TouchableOpacity>
-        )}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="New Email"
-        value={email}
-        onChangeText={setEmail}
-      />
-      <Button title="Update Account" onPress={handleUpdateAccount} />
+      <View style={styles.box}>
+        <Text style={styles.title}>Update User Account</Text>
+        <FlatList
+          data={users}
+          keyExtractor={(item) => item.id}
+          renderItem={({ item }) => (
+            <TouchableOpacity onPress={() => handleSelectUser(item)}>
+              <View style={styles.userItem}>
+                <Text style={styles.userEmail}>{item.email}</Text>
+              </View>
+            </TouchableOpacity>
+          )}
+        />
+        <TextInput
+          style={styles.input}
+          placeholder="New Email"
+          value={email}
+          onChangeText={setEmail}
+        />
+        <Button title="Update Account" onPress={handleUpdateAccount} />
+      </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  container: { flex: 1, padding: 20, justifyContent: "center" },
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#f5f5f5",
+  },
+  box: {
+    width: "90%",
+    padding: 20,
+    borderRadius: 10,
+    backgroundColor: "#fff",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
+  },
   title: {
     fontSize: 24,
     fontWeight: "bold",
     marginBottom: 20,
     textAlign: "center",
   },
-  userItem: { padding: 15, borderBottomWidth: 1, borderBottomColor: "#ccc" },
-  userEmail: { fontSize: 16 },
+  userItem: {
+    padding: 15,
+    borderBottomWidth: 1,
+    borderBottomColor: "#ccc",
+  },
+  userEmail: {
+    fontSize: 16,
+  },
   input: {
     borderWidth: 1,
     borderColor: "#ccc",
