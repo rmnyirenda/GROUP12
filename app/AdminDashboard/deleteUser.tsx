@@ -1,57 +1,58 @@
+import React, { useState, useEffect } from 'react';
+import { View, Text, Button, StyleSheet, FlatList, TouchableOpacity, Alert } from 'react-native';
+import { collection, getDocs, doc, deleteDoc } from 'firebase/firestore';
+import { Firestore_DB } from '@/firebaseConfig';
 
-import { View, Text } from 'react-native';
-import React, { useState } from 'react';
-import { Button, TextInput, Alert } from 'react-native';
-//import axios from 'axios'; Optional if you're using axios
+interface User {
+  id: string;
+  email: string;
+}
 
+const DeleteUser: React.FC = () => {
+  const [users, setUsers] = useState<User[]>([]);
 
+  useEffect(() => {
+    const fetchUsers = async () => {
+      const usersSnapshot = await getDocs(collection(Firestore_DB, 'users'));
+      const usersList = usersSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as User));
+      setUsers(usersList);
+    };
 
-const DeleteUserScreen = () => {
-  const [userId, setUserId] = useState('');
+    fetchUsers();
+  }, []);
 
-  // Function to delete user by making an HTTP request to Firebase function
-  const deleteUser = async () => {
-    if (!userId) {
-      Alert.alert('Error', 'Please enter a user ID');
-      return;
-    }
-
+  const handleDeleteAccount = async (userId: string) => {
     try {
-      // Replace this with the URL of your Firebase Function
-      const functionUrl = `https://us-central1-your-project-id.cloudfunctions.net/deleteUser?userId=${userId}`;
-      
-      // Making DELETE request to Firebase function (using fetch)
-      const response = await fetch(functionUrl, {
-        method: 'DELETE',
-      });
-
-      if (response.ok) {
-        Alert.alert('Success', 'User deleted successfully');
-      } else {
-        const errorMessage = await response.text();
-        Alert.alert('Error', errorMessage);
-      }
+      await deleteDoc(doc(Firestore_DB, 'users', userId));
+      Alert.alert('Success', 'User account deleted successfully');
+      setUsers(users.filter(user => user.id !== userId));
     } catch (error) {
-      console.error('Error deleting user:', error);
-      Alert.alert('Error', 'An error occurred. Please try again.');
+      Alert.alert('Error', (error as Error).message);
     }
   };
 
   return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>Delete User</Text>
-      <TextInput
-        style={{ width: 200, height: 40, borderColor: 'gray', borderWidth: 1, marginBottom: 10 }}
-        placeholder="Enter User ID"
-        value={userId}
-        onChangeText={setUserId}
+    <View style={styles.container}>
+      <Text style={styles.title}>Delete User Account</Text>
+      <FlatList
+        data={users}
+        keyExtractor={item => item.id}
+        renderItem={({ item }) => (
+          <View style={styles.userItem}>
+            <Text style={styles.userEmail}>{item.email}</Text>
+            <Button title="Delete" onPress={() => handleDeleteAccount(item.id)} />
+          </View>
+        )}
       />
-      <Button title="Delete User" onPress={deleteUser} />
     </View>
   );
 };
 
-export default DeleteUserScreen;
+const styles = StyleSheet.create({
+  container: { flex: 1, padding: 20, justifyContent: 'center' },
+  title: { fontSize: 24, fontWeight: 'bold', marginBottom: 20, textAlign: 'center' },
+  userItem: { flexDirection: 'row', justifyContent: 'space-between', marginBottom: 10, padding: 10, borderBottomWidth: 1, borderBottomColor: '#ccc' },
+  userEmail: { fontSize: 16 },
+});
 
-  
-
+export default DeleteUser;

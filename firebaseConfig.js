@@ -1,10 +1,8 @@
-// Import the functions you need from the SDKs you need
+// firebaseConfig.js
 import { initializeApp } from "firebase/app";
-import {getAuth} from "firebase/auth";
+import { getAuth } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
   apiKey: "AIzaSyCJG3xosp3rPhvZN0edL25PyunJQXigQ0A",
   authDomain: "examattendance-5873e.firebaseapp.com",
@@ -15,8 +13,8 @@ const firebaseConfig = {
   measurementId: "G-5EPTQQ7FZC"
 };
 
-// Initialize Firebase
-export const Firebase_app = initializeApp(firebaseConfig);
-export const Firebase_Auth = getAuth(Firebase_app);
-export const db = getFirestore(Firebase_app);
-export default Firebase_app;
+const Firebase_app = initializeApp(firebaseConfig);
+const Firebase_Auth = getAuth(Firebase_app);
+const Firestore_DB = getFirestore(Firebase_app);
+
+export { Firebase_app, Firebase_Auth, Firestore_DB };

@@ -151,3 +151,4 @@ const styles = StyleSheet.create({
   modalContent: { width: '80%', backgroundColor: '#fff', padding: 20, borderRadius: 10, alignItems: 'center' },
   menuText: { fontSize: 18, marginVertical: 10 },
   closeText: { color: 'blue', marginTop: 20, fontSize: 16 }, });
+  
