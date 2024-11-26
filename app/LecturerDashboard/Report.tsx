@@ -60,6 +60,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     marginBottom: 20,
     textAlign: "center",
+    textDecorationLine: "underline",
   },
   noStudentsText: { fontSize: 18, fontStyle: "italic", color: "#666" },
   item: {
