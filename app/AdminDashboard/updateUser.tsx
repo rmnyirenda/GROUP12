@@ -85,7 +85,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 24,
     fontWeight: "bold",
-    marginBottom: 20,
+    marginBottom: 30,
     textAlign: "center",
   },
   userItem: { padding: 15, borderBottomWidth: 1, borderBottomColor: "#ccc" },
