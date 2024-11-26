@@ -90,7 +90,8 @@ const styles = StyleSheet.create({
     backgroundColor: "#f5f5f5",
   },
   box: {
-    width: "90%",
+    width: "95%",
+    height: "90%", // Adjusted to cover most of the page height
     padding: 20,
     borderRadius: 10,
     backgroundColor: "#fff",
@@ -100,6 +101,7 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     elevation: 3,
   },
+
   title: {
     fontSize: 24,
     fontWeight: "bold",
