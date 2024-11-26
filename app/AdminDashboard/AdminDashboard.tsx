@@ -5,7 +5,7 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { useNavigation } from '@react-navigation/native';
 import { signOut,getAuth } from 'firebase/auth';
 
-// Define types for your stack navigator
+
 type RootStackParamList = {
   AdminDashboard: undefined;
   CreateUser: undefined;
@@ -15,7 +15,7 @@ type RootStackParamList = {
   Login: undefined
 };
 
-// Define the prop type for navigation
+
 type AdminDashboardScreenProp = StackNavigationProp<RootStackParamList, 'AdminDashboard'>;
 
 export default function AdminDashboard() {
