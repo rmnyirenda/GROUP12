@@ -37,36 +37,27 @@ const handleRegistration = async () => {
     }
 };
   
-  const handleLogoutPrompt = () => {
-    Alert.alert(
-      "Logout",
-      "Do you want to log out?",
-      [
-        { 
-          text: "Cancel", 
-          style: "cancel" 
-        },
-        {
-          text: "Logout",
-          onPress: async () => {
-            try {
-              const auth = getAuth();
-              await signOut(auth);
-              navigation.reset({
-                index: 0,
-                routes: [{ name: 'AdminDashboard' }]});
-              setMenuVisible(false);
-              
-        
-            } catch (error) {
-              console.error('Logout error:', error);
-              Alert.alert('Logout Failed', 'Failed to logout. Please try again.');
-            }
-          }
-        }
-      ]
-    );
+  const handleLogoutPrompt = async() => {
+    try{
+      const auth = getAuth();
+       await signOut(auth);
+      navigation.reset({
+        index: 0,
+        routes: [{name :'Login'}]
+      });
+    }catch(error){
+      Alert.alert(
+        "Logout",
+        "Do you want to log out?",
+        [
+          { text: "Cancel", style: "cancel" },
+          { text: "Logout", onPress: () => console.log("Logged out") }
+        ]
+      );
+    }
   };
+     
+
   const handleMenuOption = (option: string) => {
     setMenuVisible(false);
     switch (option) {

@@ -70,7 +70,7 @@ const Layout = () => {
          <Stack.Screen 
           name="UpdateAttendance" 
           component={UpdateAttendance} 
-          options={{ headerTitle: 'UpdateAttendance' }} // Optional: Customize header
+          options={{ headerShown: false }} // Optional: Customize header
         />
         <Stack.Screen 
           name="Attendance" 
@@ -85,7 +85,7 @@ const Layout = () => {
         <Stack.Screen 
           name="CreateUser" 
           component={CreateUser} 
-          options={{ headerTitle: 'CreateUser' }} // Optional: Customize header
+          options={{ headerShown: false }} // Optional: Customize header
         />
         <Stack.Screen 
           name="Notification" 
