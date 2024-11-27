@@ -76,7 +76,27 @@ const UpdateUser: React.FC = () => {
           value={email}
           onChangeText={setEmail}
         />
-        <Button title="Update Account" onPress={handleUpdateAccount} />
+        <Button
+          title="Update Account"
+          onPress={() => {
+            console.log("Button Pressed");
+            Alert.alert(
+              "Confirmation",
+              "ARE YOU SURE YOU WANT TO UPDATE?",
+              [
+                {
+                  text: "CANCEL",
+                  style: "cancel",
+                },
+                {
+                  text: "YES",
+                  onPress: handleUpdateAccount,
+                },
+              ],
+              { cancelable: true }
+            );
+          }}
+        />
       </View>
     </View>
   );
@@ -101,7 +121,6 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     elevation: 3,
   },
-
   title: {
     fontSize: 18,
     fontWeight: "bold",
