@@ -3,8 +3,9 @@ import React, { useState } from 'react';
 import {View, ScrollView,ActivityIndicator, KeyboardAvoidingView, Modal, Alert, TouchableOpacity, Text, StyleSheet, Image, Platform} from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
 import { Ionicons} from '@expo/vector-icons';
-import { Firebase_Auth } from '../../firebaseConfig';
+import { Firebase_Auth, Firestore_DB } from '../../firebaseConfig';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { collection,doc,setDoc } from 'firebase/firestore';
 import { signOut, getAuth } from 'firebase/auth';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { useNavigation } from '@react-navigation/native';
@@ -28,6 +29,11 @@ const handleRegistration = async () => {
     setIsLoading(true);
     try{
       const response = await createUserWithEmailAndPassword(auth, userEmail, password);
+      const user = response.user;
+      await setDoc(doc(Firestore_DB,"users",user.uid),{userEmail,role:'user'});
+      Alert.alert("successfully created");
+      setUserEmail('');
+      setPassword('');
       console.log(response);
     }
     catch(error){
