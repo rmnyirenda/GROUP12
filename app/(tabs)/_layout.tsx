@@ -9,16 +9,15 @@ import StudentDashboard from '@/app/StudentDashboard/StudentDashboard'; // Stude
 import Events from '@/app/LecturerDashboard/Events'; // Events
 import Attendance from '@/app/LecturerDashboard/Attendance'; // Attendance
 import Report from '@/app/LecturerDashboard/Report'; // Report
-import AdminDashboard from '@/app/AdminDashboard/AdminDashboard'
+import AdminDashboard from '@/app/AdminDashboard/AdminDashboard';
 import CreateUser from '@/app/AdminDashboard/CreateUser';
 import deleteUser from '@/app/AdminDashboard/deleteUser';
 import updateUser from '@/app/AdminDashboard/updateUser';
 import UpdateAttendance from '@/app/AdminDashboard/UpdateAttendance';
-import Notification from '../StudentDashboard/Notification';
-import Assigned from '../StudentDashboard/Assigned';
-import Missed from '../StudentDashboard/Missed';
-import Scan from '../LecturerDashboard/Scan';
-
+import Notification from '@/app/StudentDashboard/Notification';
+import Assigned from '@/app/StudentDashboard/Assigned';
+import Missed from '@/app/StudentDashboard/Missed';
+import Scan from '@/app/LecturerDashboard/Scan';
 
 // Create a stack navigator instance
 const Stack = createStackNavigator();
@@ -60,17 +59,16 @@ const Layout = () => {
          <Stack.Screen 
           name="deleteUser" 
           component={deleteUser} 
-          options={{ headerTitle: 'deleteuser' }} // Optional: Customize header
+          options={{ headerTitle: 'Delete User' }} // Optional: Customize header
         />
          <Stack.Screen 
           name="updateUser" 
           component={updateUser} 
-          options={{ headerTitle: 'UpdateUser' }} // Optional: Customize header
+          options={{ headerTitle: 'Update User' }} // Optional: Customize header
         />
          <Stack.Screen 
           name="UpdateAttendance" 
-          component={UpdateAttendance} 
-          options={{ headerShown: false }} // Optional: Customize header
+          component={UpdateAttendance}
         />
         <Stack.Screen 
           name="Attendance" 
@@ -85,7 +83,6 @@ const Layout = () => {
         <Stack.Screen 
           name="CreateUser" 
           component={CreateUser} 
-          options={{ headerShown: false }} // Optional: Customize header
         />
         <Stack.Screen 
           name="Notification" 
@@ -102,7 +99,6 @@ const Layout = () => {
           component={Assigned} 
           options={{ headerTitle: 'Assigned' }} // Optional: Customize header
         />
-
       </Stack.Navigator>
     </NavigationContainer>
   );
