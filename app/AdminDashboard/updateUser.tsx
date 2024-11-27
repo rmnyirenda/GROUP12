@@ -117,7 +117,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 18,
     fontWeight: "bold",
-    marginVertical: 20,
+    marginVertical: 20, // Creates space above and below
     textAlign: "center",
     textDecorationLine: "underline",
   },
