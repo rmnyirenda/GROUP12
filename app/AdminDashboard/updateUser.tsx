@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   Alert,
   Text,
+  Image,
 } from "react-native";
 import { collection, getDocs, doc, updateDoc } from "firebase/firestore";
 import { Firestore_DB } from "@/firebaseConfig";
@@ -57,45 +58,99 @@ const UpdateUser: React.FC = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Update User Account</Text>
-      <FlatList
-        data={users}
-        keyExtractor={(item) => item.id}
-        renderItem={({ item }) => (
-          <TouchableOpacity onPress={() => handleSelectUser(item)}>
-            <View style={styles.userItem}>
-              <Text style={styles.userEmail}>{item.email}</Text>
-            </View>
-          </TouchableOpacity>
-        )}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="New Email"
-        value={email}
-        onChangeText={setEmail}
-      />
-      <Button title="Update Account" onPress={handleUpdateAccount} />
+      <View style={styles.header}>
+        <Image
+          source={{
+            uri: "https://png.pngtree.com/png-clipart/20211017/original/pngtree-school-logo-png-image_6851480.png",
+          }}
+          style={styles.logo}
+        />
+        <Text style={styles.headerText}>EXAMINATION ATTENDANCE</Text>
+      </View>
+      <Text style={styles.title}>UPDATE USER ACCOUNT</Text>
+      <View style={styles.box}>
+        <FlatList
+          data={users}
+          keyExtractor={(item) => item.id}
+          renderItem={({ item }) => (
+            <TouchableOpacity onPress={() => handleSelectUser(item)}>
+              <View style={styles.userItem}>
+                <Text style={styles.userEmail}>{item.email}</Text>
+              </View>
+            </TouchableOpacity>
+          )}
+        />
+        <TextInput
+          style={styles.input}
+          placeholder="New Email"
+          value={email}
+          onChangeText={setEmail}
+        />
+        <Button title="Update account" onPress={handleUpdateAccount} />
+      </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  container: { flex: 1, padding: 20, justifyContent: "center" },
-  title: {
-    fontSize: 24,
-    fontWeight: "bold",
-    marginBottom: 20,
-    textAlign: "center",
+  container: {
+    flex: 1,
+    backgroundColor: "#f5f5f5",
   },
-  userItem: { padding: 15, borderBottomWidth: 1, borderBottomColor: "#ccc" },
-  userEmail: { fontSize: 16 },
+  header: {
+    backgroundColor: "#1c1cf0",
+    alignItems: "center",
+    paddingVertical: 20,
+    width: "100%",
+  },
+  logo: {
+    width: 60,
+    height: 60,
+    resizeMode: "contain",
+  },
+  headerText: {
+    color: "#FFFFFF",
+    fontSize: 18,
+    fontWeight: "bold",
+    marginTop: 5,
+  },
+  title: {
+    fontSize: 18,
+    fontWeight: "bold",
+    marginVertical: 20, // Creates space above and below
+    textAlign: "center",
+    textDecorationLine: "underline",
+  },
+  box: {
+    flex: 1,
+    marginHorizontal: 10,
+    padding: 20,
+    borderRadius: 10,
+    backgroundColor: "#fff",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
+  },
+  userItem: {
+    padding: 15,
+    borderBottomWidth: 1,
+    borderBottomColor: "#ccc",
+  },
+  userEmail: {
+    fontSize: 16,
+    color: "black",
+  },
   input: {
-    borderWidth: 1,
-    borderColor: "#ccc",
+    borderWidth: 2,
+    borderColor: "black",
     padding: 10,
     marginVertical: 10,
     borderRadius: 5,
+    textAlign: "center",
+    fontWeight: "bold",
+    color: "grey",
   },
 });
 

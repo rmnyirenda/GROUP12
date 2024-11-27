@@ -68,8 +68,7 @@ const Layout = () => {
         />
          <Stack.Screen 
           name="UpdateAttendance" 
-          component={UpdateAttendance} 
-          options={{ headerTitle: 'Update Attendance' }} // Optional: Customize header
+          component={UpdateAttendance}
         />
         <Stack.Screen 
           name="Attendance" 
@@ -84,7 +83,6 @@ const Layout = () => {
         <Stack.Screen 
           name="CreateUser" 
           component={CreateUser} 
-          options={{ headerTitle: 'Create User' }} // Optional: Customize header
         />
         <Stack.Screen 
           name="Notification" 
