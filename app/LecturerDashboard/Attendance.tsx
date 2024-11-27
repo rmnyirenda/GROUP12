@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Alert, Image, SafeAreaView, TextInput } from 'react-native';
-import { BarCodeScanner } from 'expo-barcode-scanner';
+import React, { useState, useEffect, useRef } from 'react';
+import { View, Text, TouchableOpacity, StyleSheet, Alert, Image, SafeAreaView, TextInput, AppState, Platform, StatusBar } from 'react-native';
+import { Camera, CameraView, BarcodeScanningResult } from 'expo-camera'; // Correct import
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
@@ -9,9 +9,9 @@ import { signOut, getAuth } from 'firebase/auth';
 // Define a type for your screen parameters
 type RootStackParamList = {
   Attendance: undefined;
-  Report: { students: { name: string; status: string; }[] };
+  Report: { students: { name: string; regNumber: string; status: string; }[] };
   LecturerDashboard: undefined;
-  Login: undefined; // Added Login here
+  Login: undefined;
 };
 
 const SPREADSHEET_URL = 'https://docs.google.com/spreadsheets/d/YOUR_SPREADSHEET_ID/edit';
@@ -24,21 +24,42 @@ const Attendance = () => {
   const [scanned, setScanned] = useState<boolean>(false);
   const [data, setData] = useState<string>('');
   const [inputRegNumber, setInputRegNumber] = useState<string>('');
-  const [students, setStudents] = useState<{ name: string; status: string }[]>([]);
+  const [students, setStudents] = useState<{ name: string; regNumber: string; status: string }[]>([]);
   const navigation = useNavigation<AttendanceScreenNavigationProp>();
+  const qrLock = useRef(false);
+  const appState = useRef(AppState.currentState);
 
   useEffect(() => {
     (async () => {
-      const { status } = await BarCodeScanner.requestPermissionsAsync();
+      const { status } = await Camera.requestCameraPermissionsAsync();
       setHasPermission(status === 'granted');
     })();
+
+    const subscription = AppState.addEventListener("change", (nextAppState) => {
+      if (appState.current.match(/inactive|background/) && nextAppState === "active") {
+        qrLock.current = false; // Unlock QR scanning
+      }
+      appState.current = nextAppState;
+    });
+
+    return () => {
+      subscription.remove();
+    };
   }, []);
 
-  const handleBarCodeScanned = ({ type, data }: { type: string, data: string }) => {
-    setScanned(true);
-    setData(data);
-    Alert.alert('Scanned!', `Reg. Number: ${data}`);
-    sendDataToGoogleSheet(data);
+  const handleBarcodeScanned = async ({ data }: BarcodeScanningResult) => {
+    if (data && !qrLock.current) {
+      qrLock.current = true; // Lock to prevent multiple scans
+      console.log("Scanned QR Code Data:", data);
+      Alert.alert("Scanned Data", data);
+      setScanned(true);
+      setData(data);
+      sendDataToGoogleSheet(data);
+
+      setTimeout(() => {
+        qrLock.current = false;
+      }, 1000);
+    }
   };
 
   const sendDataToGoogleSheet = async (regNumber: string) => {
@@ -50,7 +71,7 @@ const Attendance = () => {
       });
       const result = await response.json();
       if (result.status === 'success') {
-        const student = { name: result.name, regNumber: regNumber, status: 'Attended' };
+        const student = { name: result.name, regNumber, status: 'Attended' };
         setStudents(prevStudents => [...prevStudents, student]);
         Alert.alert('Success', `Student Name: ${result.name}`);
       } else {
@@ -101,7 +122,8 @@ const Attendance = () => {
   }
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={StyleSheet.absoluteFillObject}>
+      {Platform.OS === "android" && <StatusBar hidden />}
       <View style={styles.header}>
         <Image source={{ uri: 'https://png.pngtree.com/png-clipart/20211017/original/pngtree-school-logo-png-image_6851480.png' }} style={styles.logo} />
         <Text style={styles.headerText}>EXAMINATION ATTENDANCE</Text>
@@ -116,20 +138,12 @@ const Attendance = () => {
         </TouchableOpacity>
       </View>
 
-      {/* Barcode Scanner */}
-      {!scanned && (
-        <BarCodeScanner onBarCodeScanned={scanned ? undefined : handleBarCodeScanned} style={StyleSheet.absoluteFillObject} />
-      )}
-      {scanned && (
-        <View style={styles.buttonContainer}>
-          <Text>Scanned Data: {data}</Text>
-          <TouchableOpacity onPress={() => setScanned(false)} style={styles.button}>
-            <Text style={styles.buttonText}>Scan Again</Text>
-          </TouchableOpacity>
-        </View>
-      )}
+      <CameraView
+        style={StyleSheet.absoluteFillObject}
+        facing="back"
+        onBarcodeScanned={handleBarcodeScanned}
+      />
 
-      {/* Manual Input */}
       <View style={styles.inputContainer}>
         <TextInput
           style={styles.input}
@@ -142,10 +156,8 @@ const Attendance = () => {
         </TouchableOpacity>
       </View>
 
-      {/* Spacer to push the View Report button to the bottom */}
       <View style={{ flex: 1 }} />
 
-      {/* View Report Button */}
       <TouchableOpacity onPress={handleViewReport} style={styles.bottomButton}>
         <Text style={styles.buttonText}>View Report</Text>
       </TouchableOpacity>

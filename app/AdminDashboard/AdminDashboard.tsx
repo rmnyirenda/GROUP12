@@ -3,8 +3,7 @@ import { View, Text, TouchableOpacity, StyleSheet, Image, Alert, Modal } from 'r
 import { Ionicons, FontAwesome5 } from '@expo/vector-icons';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { useNavigation } from '@react-navigation/native';
-import { signOut,getAuth } from 'firebase/auth';
-
+import { signOut, getAuth } from 'firebase/auth';
 
 type RootStackParamList = {
   AdminDashboard: undefined;
@@ -12,9 +11,8 @@ type RootStackParamList = {
   deleteUser: undefined;
   updateUser: undefined;
   UpdateAttendance: undefined;
-  Login: undefined
+  Login: undefined;
 };
-
 
 type AdminDashboardScreenProp = StackNavigationProp<RootStackParamList, 'AdminDashboard'>;
 
@@ -22,26 +20,25 @@ export default function AdminDashboard() {
   const [isMenuVisible, setMenuVisible] = useState(false);
   const navigation = useNavigation<AdminDashboardScreenProp>();
 
-  // Function to handle logout prompt
-   
-   const handleLogoutPrompt = async() => {
-    try{
-    const auth = getAuth();
-     await signOut(auth);
-    navigation.reset({
-      index: 0,
-      routes: [{name :'Login'}]
-    });
-  }catch(error){
-    Alert.alert(
-      "Logout",
-      "Do you want to log out?",
-      [
-        { text: "Cancel", style: "cancel" },
-        { text: "Logout", onPress: () => console.log("Logged out") }
-      ]
-    );
-  }
+  const handleLogoutPrompt = async () => {
+    try {
+      const auth = getAuth();
+      await signOut(auth);
+      navigation.reset({
+        index: 0,
+        routes: [{ name: 'Login' }],
+      });
+    } catch (error) {
+      console.error('Logout error: ', error);
+      Alert.alert(
+        "Logout",
+        "An error occurred during logout. Please try again.",
+        [
+          { text: "Cancel", style: "cancel" },
+          { text: "Retry", onPress: handleLogoutPrompt }
+        ]
+      );
+    }
   };
 
   return (
