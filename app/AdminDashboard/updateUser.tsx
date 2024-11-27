@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   Alert,
   Text,
+  Image,
 } from "react-native";
 import { collection, getDocs, doc, updateDoc } from "firebase/firestore";
 import { Firestore_DB } from "@/firebaseConfig";
@@ -57,8 +58,17 @@ const UpdateUser: React.FC = () => {
 
   return (
     <View style={styles.container}>
+      <View style={styles.header}>
+        <Image
+          source={{
+            uri: "https://png.pngtree.com/png-clipart/20211017/original/pngtree-school-logo-png-image_6851480.png",
+          }}
+          style={styles.logo}
+        />
+        <Text style={styles.headerText}>EXAMINATION ATTENDANCE</Text>
+      </View>
+      <Text style={styles.title}>UPDATE USER ACCOUNT</Text>
       <View style={styles.box}>
-        <Text style={styles.title}>UPDATE USER ACCOUNT</Text>
         <FlatList
           data={users}
           keyExtractor={(item) => item.id}
@@ -76,27 +86,7 @@ const UpdateUser: React.FC = () => {
           value={email}
           onChangeText={setEmail}
         />
-        <Button
-          title="Update account"
-          onPress={() => {
-            console.log("Button Pressed");
-            Alert.alert(
-              "Confirmation",
-              "ARE YOU SURE ?",
-              [
-                {
-                  text: "CANCEL",
-                  style: "cancel",
-                },
-                {
-                  text: "YES",
-                  onPress: handleUpdateAccount,
-                },
-              ],
-              { cancelable: true }
-            );
-          }}
-        />
+        <Button title="Update account" onPress={handleUpdateAccount} />
       </View>
     </View>
   );
@@ -105,13 +95,35 @@ const UpdateUser: React.FC = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
     backgroundColor: "#f5f5f5",
   },
+  header: {
+    backgroundColor: "#1c1cf0",
+    alignItems: "center",
+    paddingVertical: 20,
+    width: "100%",
+  },
+  logo: {
+    width: 60,
+    height: 60,
+    resizeMode: "contain",
+  },
+  headerText: {
+    color: "#FFFFFF",
+    fontSize: 18,
+    fontWeight: "bold",
+    marginTop: 5,
+  },
+  title: {
+    fontSize: 18,
+    fontWeight: "bold",
+    marginVertical: 20, // Creates space above and below
+    textAlign: "center",
+    textDecorationLine: "underline",
+  },
   box: {
-    width: "95%",
-    height: "90%",
+    flex: 1,
+    marginHorizontal: 10,
     padding: 20,
     borderRadius: 10,
     backgroundColor: "#fff",
@@ -121,13 +133,6 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     elevation: 3,
   },
-  title: {
-    fontSize: 18,
-    fontWeight: "bold",
-    marginBottom: 20,
-    textAlign: "center",
-    textDecorationLine: "underline",
-  },
   userItem: {
     padding: 15,
     borderBottomWidth: 1,
@@ -135,14 +140,14 @@ const styles = StyleSheet.create({
   },
   userEmail: {
     fontSize: 16,
+    color: "black",
   },
   input: {
-    borderWidth: 1,
-    borderColor: "grey",
+    borderWidth: 2,
+    borderColor: "black",
     padding: 10,
     marginVertical: 10,
     borderRadius: 5,
-    alignContent: "center",
     textAlign: "center",
     fontWeight: "bold",
     color: "grey",
