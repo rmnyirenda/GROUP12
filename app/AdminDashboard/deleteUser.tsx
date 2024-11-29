@@ -60,7 +60,7 @@ const DeleteUser: React.FC = () => {
     <View style={styles.container}>
       <View style={styles.header}>
         <Image source={{ uri: 'https://png.pngtree.com/png-clipart/20211017/original/pngtree-school-logo-png-image_6851480.png' }} style={styles.logo} />
-        <Text style={styles.headerText}>EXAM ATTENDANCE</Text>
+        <Text style={styles.headerText}>EXAMINATION ATTENDANCE</Text>
       </View>
       <View style={styles.titleRow}>
         <Text style={[styles.title, styles.centerTitle]}>Delete User Account</Text>
