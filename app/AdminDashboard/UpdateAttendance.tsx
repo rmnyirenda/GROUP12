@@ -74,7 +74,7 @@ const AddStudent: React.FC = () => {
     <View style={style.container2}>
             <View style={style.header}>
         <Image source={{ uri: 'https://png.pngtree.com/png-clipart/20211017/original/pngtree-school-logo-png-image_6851480.png' }} style={style.logo} />
-                <Text style={style.headerText}>EXAM ATTENDANCE</Text>      
+                <Text style={style.headerText}>EXAMAMINATION ATTENDANCE</Text>      
       </View>
 
       {/* Navbar */}
