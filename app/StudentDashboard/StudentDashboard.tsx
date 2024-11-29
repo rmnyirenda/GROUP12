@@ -63,12 +63,14 @@ export default function StudentDashboard() {
         <TouchableOpacity onPress={() => setMenuVisible(true)}>
           <Ionicons name="menu" size={24} color="black" style={styles.menuIcon} />
         </TouchableOpacity>
-        <TouchableOpacity>
-       <Ionicons name="notifications" size={24} color="black" style={styles.notification}/>
-      </TouchableOpacity>
-        <TouchableOpacity onPress={handleLogoutPrompt}>
-          <Ionicons name="person-circle" size={24} color="black" style={styles.user} />
-        </TouchableOpacity>
+        <View style={styles.rightIconsContainer}>
+          <TouchableOpacity>
+            <Ionicons name="notifications" size={24} color="black" style={styles.notification} />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={handleLogoutPrompt}>
+            <Ionicons name="person-circle" size={24} color="black" style={styles.user} />
+          </TouchableOpacity>
+        </View>
       </View>
 
       {/* Banner Image */}
@@ -149,18 +151,13 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
     paddingVertical: 10,
   },
+  rightIconsContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginLeft: 'auto',
+  },
   menuIcon: {
     flex: 1,
-  },
-  welcomeText: {
-    flex: 3,
-    textAlign: 'center',
-    fontWeight: 'bold',
-    color: '#0000FF',
-  },
-  profileIcon: {
-    flex: 1,
-    textAlign: 'right',
   },
   bannerImage: {
     width: '100%',
@@ -168,8 +165,8 @@ const styles = StyleSheet.create({
     resizeMode: 'cover',
     marginVertical: 10,
   },
-  notification:{
-    left:275
+  notification: {
+    marginRight: 15,
   },
   buttonsContainer: {
     flexDirection: 'row',
@@ -229,8 +226,7 @@ const styles = StyleSheet.create({
     marginTop: 20,
     fontSize: 16,
   },
-  user:{
-    left:200,
-    
+  user: {
+    marginRight: 15,
   },
 });
