@@ -12,6 +12,9 @@ import {
 } from "react-native";
 import { collection, getDocs, doc, updateDoc } from "firebase/firestore";
 import { Firestore_DB } from "@/firebaseConfig";
+import { signOut, getAuth } from 'firebase/auth';
+import { useNavigation } from '@react-navigation/native';
+import Ionicons from 'react-native-vector-icons/Ionicons'; // Import Ionicons
 
 interface User {
   id: string;
@@ -22,6 +25,7 @@ const UpdateUser: React.FC = () => {
   const [users, setUsers] = useState<User[]>([]);
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
   const [email, setEmail] = useState<string>("");
+  const navigation = useNavigation(); // Accessing navigation via hook
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -56,6 +60,27 @@ const UpdateUser: React.FC = () => {
     setEmail(user.email);
   };
 
+  const handleLogoutPrompt = async () => {
+    try {
+      const auth = getAuth();
+      await signOut(auth);
+      navigation.reset({
+        index: 0,
+        routes: [{ name: 'Login' }],
+      });
+    } catch (error) {
+      console.error('Logout error: ', error);
+      Alert.alert(
+        "Logout",
+        "An error occurred during logout. Please try again.",
+        [
+          { text: "Cancel", style: "cancel" },
+          { text: "Retry", onPress: handleLogoutPrompt }
+        ]
+      );
+    }
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -67,7 +92,12 @@ const UpdateUser: React.FC = () => {
         />
         <Text style={styles.headerText}>EXAMINATION ATTENDANCE</Text>
       </View>
-      <Text style={styles.title}>UPDATE USER ACCOUNT</Text>
+      <View style={styles.titleRow}>
+        <Text style={styles.title}>UPDATE USER ACCOUNT</Text>
+        <TouchableOpacity onPress={handleLogoutPrompt} style={styles.logoutButton}>
+          <Ionicons name="person-circle" size={24} color="black" />
+        </TouchableOpacity>
+      </View>
       <View style={styles.box}>
         <FlatList
           data={users}
@@ -114,12 +144,22 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     marginTop: 5,
   },
+  titleRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between', 
+    paddingHorizontal: 20, 
+  },
   title: {
     fontSize: 18,
     fontWeight: "bold",
-    marginVertical: 20, // Creates space above and below
+    marginVertical: 20, 
     textAlign: "center",
     textDecorationLine: "underline",
+    flex: 1, 
+  },
+  logoutButton: {
+    
   },
   box: {
     flex: 1,
