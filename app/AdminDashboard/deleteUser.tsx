@@ -85,7 +85,7 @@ const DeleteUser: React.FC = () => {
 const styles = StyleSheet.create({
   container: { flex: 1, padding: 20, justifyContent: 'center' },
   title: { fontSize: 24, fontWeight: 'bold', marginBottom: 20 },
-  centerTitle: { textAlign: 'center', flex: 1 }, // Center title
+  centerTitle: { textAlign: 'center', flex: 1 }, 
   userItem: { flexDirection: 'row', justifyContent: 'space-between', marginBottom: 10, padding: 10, borderBottomWidth: 1, borderBottomColor: '#ccc' },
   userEmail: { fontSize: 16 },
   
@@ -93,6 +93,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#1c1cf0',
     alignItems: 'center',
     padding: 10,
+    width: '100%', // Ensure the header covers the full width
   },
   logo: {
     width: 60,
@@ -110,7 +111,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   logoutButton: {
-    marginLeft: 'auto', // Push the button to the right
+    marginLeft: 'auto', 
   },
 });
 
