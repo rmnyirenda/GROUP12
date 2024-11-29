@@ -4,7 +4,7 @@ import { collection, getDocs, doc, deleteDoc } from 'firebase/firestore';
 import { Firestore_DB } from '@/firebaseConfig';
 import { signOut, getAuth } from 'firebase/auth';
 import { useNavigation } from '@react-navigation/native';
-import Ionicons from 'react-native-vector-icons/Ionicons'; // Import Ionicons
+import Ionicons from 'react-native-vector-icons/Ionicons'; 
 
 interface User {
   id: string;
@@ -13,7 +13,7 @@ interface User {
 
 const DeleteUser: React.FC = () => {
   const [users, setUsers] = useState<User[]>([]);
-  const navigation = useNavigation(); // Accessing navigation via hook
+  const navigation = useNavigation(); 
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -41,7 +41,7 @@ const DeleteUser: React.FC = () => {
       await signOut(auth);
       navigation.reset({
         index: 0,
-        routes: [{ name: 'Login' }], 
+        routes: [{ name: 'Login' }],
       });
     } catch (error) {
       console.error('Logout error: ', error);
@@ -61,11 +61,13 @@ const DeleteUser: React.FC = () => {
       <View style={styles.header}>
         <Image source={{ uri: 'https://png.pngtree.com/png-clipart/20211017/original/pngtree-school-logo-png-image_6851480.png' }} style={styles.logo} />
         <Text style={styles.headerText}>EXAM ATTENDANCE</Text>
-        <TouchableOpacity onPress={handleLogoutPrompt}>
-          <Ionicons name="person-circle" size={24} color="black" style={styles.profileIcon} />
+      </View>
+      <View style={styles.titleRow}>
+        <Text style={[styles.title, styles.centerTitle]}>Delete User Account</Text>
+        <TouchableOpacity onPress={handleLogoutPrompt} style={styles.logoutButton}>
+          <Ionicons name="person-circle" size={24} color="black" />
         </TouchableOpacity>
       </View>
-      <Text style={styles.title}>Delete User Account</Text>
       <FlatList
         data={users}
         keyExtractor={item => item.id}
@@ -82,7 +84,8 @@ const DeleteUser: React.FC = () => {
 
 const styles = StyleSheet.create({
   container: { flex: 1, padding: 20, justifyContent: 'center' },
-  title: { fontSize: 24, fontWeight: 'bold', marginBottom: 20, textAlign: 'center' },
+  title: { fontSize: 24, fontWeight: 'bold', marginBottom: 20 },
+  centerTitle: { textAlign: 'center', flex: 1 }, // Center title
   userItem: { flexDirection: 'row', justifyContent: 'space-between', marginBottom: 10, padding: 10, borderBottomWidth: 1, borderBottomColor: '#ccc' },
   userEmail: { fontSize: 16 },
   
@@ -96,15 +99,19 @@ const styles = StyleSheet.create({
     height: 60,
     resizeMode: 'contain',
   },
-  profileIcon: {
-    flex: 1,
-    textAlign: 'right',
-  },
   headerText: {
     color: '#FFFFFF',
     fontSize: 18,
     fontWeight: 'bold',
     marginTop: 5,
-}});
+  },
+  titleRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  logoutButton: {
+    marginLeft: 'auto', // Push the button to the right
+  },
+});
 
 export default DeleteUser;
