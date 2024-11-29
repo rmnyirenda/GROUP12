@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, Button, StyleSheet, FlatList,Image, TouchableOpacity, Alert } from 'react-native';
+import { View, Text, Button, StyleSheet, FlatList, Image, TouchableOpacity, Alert } from 'react-native';
 import { collection, getDocs, doc, deleteDoc } from 'firebase/firestore';
 import { Firestore_DB } from '@/firebaseConfig';
+import { signOut, getAuth } from 'firebase/auth';
+import { useNavigation } from '@react-navigation/native';
+import Ionicons from 'react-native-vector-icons/Ionicons'; // Import Ionicons
 
 interface User {
   id: string;
@@ -10,6 +13,7 @@ interface User {
 
 const DeleteUser: React.FC = () => {
   const [users, setUsers] = useState<User[]>([]);
+  const navigation = useNavigation(); // Accessing navigation via hook
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -31,11 +35,35 @@ const DeleteUser: React.FC = () => {
     }
   };
 
+  const handleLogoutPrompt = async () => {
+    try {
+      const auth = getAuth();
+      await signOut(auth);
+      navigation.reset({
+        index: 0,
+        routes: [{ name: 'Login' }], 
+      });
+    } catch (error) {
+      console.error('Logout error: ', error);
+      Alert.alert(
+        "Logout",
+        "An error occurred during logout. Please try again.",
+        [
+          { text: "Cancel", style: "cancel" },
+          { text: "Retry", onPress: handleLogoutPrompt }
+        ]
+      );
+    }
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
         <Image source={{ uri: 'https://png.pngtree.com/png-clipart/20211017/original/pngtree-school-logo-png-image_6851480.png' }} style={styles.logo} />
         <Text style={styles.headerText}>EXAM ATTENDANCE</Text>
+        <TouchableOpacity onPress={handleLogoutPrompt}>
+          <Ionicons name="person-circle" size={24} color="black" style={styles.profileIcon} />
+        </TouchableOpacity>
       </View>
       <Text style={styles.title}>Delete User Account</Text>
       <FlatList
@@ -67,6 +95,10 @@ const styles = StyleSheet.create({
     width: 60,
     height: 60,
     resizeMode: 'contain',
+  },
+  profileIcon: {
+    flex: 1,
+    textAlign: 'right',
   },
   headerText: {
     color: '#FFFFFF',
