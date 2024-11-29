@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, Button, StyleSheet, FlatList, TouchableOpacity, Alert } from 'react-native';
+import { View, Text, Button, StyleSheet, FlatList,Image, TouchableOpacity, Alert } from 'react-native';
 import { collection, getDocs, doc, deleteDoc } from 'firebase/firestore';
 import { Firestore_DB } from '@/firebaseConfig';
 
@@ -33,6 +33,10 @@ const DeleteUser: React.FC = () => {
 
   return (
     <View style={styles.container}>
+      <View style={styles.header}>
+        <Image source={{ uri: 'https://png.pngtree.com/png-clipart/20211017/original/pngtree-school-logo-png-image_6851480.png' }} style={styles.logo} />
+        <Text style={styles.headerText}>ADMIN DASHBOARD</Text>
+      </View>
       <Text style={styles.title}>Delete User Account</Text>
       <FlatList
         data={users}
@@ -53,6 +57,22 @@ const styles = StyleSheet.create({
   title: { fontSize: 24, fontWeight: 'bold', marginBottom: 20, textAlign: 'center' },
   userItem: { flexDirection: 'row', justifyContent: 'space-between', marginBottom: 10, padding: 10, borderBottomWidth: 1, borderBottomColor: '#ccc' },
   userEmail: { fontSize: 16 },
-});
+  
+  header: {
+    backgroundColor: '#1c1cf0',
+    alignItems: 'center',
+    padding: 10,
+  },
+  logo: {
+    width: 60,
+    height: 60,
+    resizeMode: 'contain',
+  },
+  headerText: {
+    color: '#FFFFFF',
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginTop: 5,
+}});
 
 export default DeleteUser;
