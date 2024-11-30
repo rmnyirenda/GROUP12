@@ -26,7 +26,7 @@ const AddStudent: React.FC = () => {
         setSex('');
         setType('');
       } else {
-        Alert.alert('Error', 'Failed to add student details');
+        Alert.alert('Error', 'Failed to add student ');
       }
     } catch (error) {
       Alert.alert('Error', 'An error occurred');
