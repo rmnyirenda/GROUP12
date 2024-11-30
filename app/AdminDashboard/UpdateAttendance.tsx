@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from 'react'; //iportig
 import { View, TextInput, Button, StyleSheet, Alert, Text } from 'react-native';
 
 const AddStudent: React.FC = () => {
@@ -26,7 +26,7 @@ const AddStudent: React.FC = () => {
         setSex('');
         setType('');
       } else {
-        Alert.alert('Error', 'Failed to add student ');
+        Alert.alert('Error', 'Failed to add student details');
       }
     } catch (error) {
       Alert.alert('Error', 'An error occurred');
